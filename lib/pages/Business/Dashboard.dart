@@ -91,11 +91,12 @@ class _DashboardState extends State<Dashboard> {
                                                 children: [
                                                   Wrap(children: <Widget>[
                                                     Text(
-                                                      "CLUTCH BAR",
+                                                      "CLUTCH ",
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: Dimensions.size20,
                                                           fontWeight: FontWeight.bold),
+                                                        overflow: TextOverflow.ellipsis,
                                                     ),
                                                     SizedBox(width: Dimensions.size5),
                                                     Container(
@@ -139,7 +140,8 @@ class _DashboardState extends State<Dashboard> {
                                                             ),
                                                           ),
                                                         )),
-                                                  ]),
+                                                  ]
+                                                  ),
                                                 ],
                                               ),
                                             ],

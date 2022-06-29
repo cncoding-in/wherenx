@@ -30,11 +30,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
      // initialRoute: RouteHelper.initial,
-    //  initialRoute: RouteHelper.allMenu,
+      //initialRoute: RouteHelper.allMenu,
      // initialRoute: RouteHelper.couponsPage,
-
-      initialRoute: RouteHelper.offerPage,
+    //  initialRoute: RouteHelper.offerPage,
       //initialRoute: RouteHelper.mediaPage,
+     // initialRoute: RouteHelper.addressPage,
+      //initialRoute: RouteHelper.addOffersPage,
+      //initialRoute: RouteHelper.dashboard,
+      initialRoute: RouteHelper.uploadMediaPage,
       getPages: RouteHelper.routes,
     );
   }
