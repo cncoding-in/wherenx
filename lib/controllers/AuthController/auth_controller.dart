@@ -43,6 +43,9 @@ class AuthController extends GetxController{
 
         print(box.read(Constants.NAME));
         Get.offNamed(RouteHelper.getDashboardPage());
+      }else{
+
+
       }
 
     } else{

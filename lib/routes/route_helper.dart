@@ -1,10 +1,13 @@
 import 'package:businesspartner/pages/Authentication/AuthLoginPage.dart';
 import 'package:businesspartner/pages/Authentication/ForgotPasswordPage.dart';
+import 'package:businesspartner/pages/Business/AddOffersPage.dart';
+import 'package:businesspartner/pages/Business/AddressPage.dart';
 import 'package:businesspartner/pages/Business/AllMenu.dart';
 import 'package:businesspartner/pages/Business/CouponsPage.dart';
 import 'package:businesspartner/pages/Business/CreateBusiness.dart';
 import 'package:businesspartner/pages/Business/Dashboard.dart';
 import 'package:businesspartner/pages/Business/OffersPage.dart';
+import 'package:businesspartner/pages/Business/UploadMedia.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -23,6 +26,9 @@ class RouteHelper{
   static const String couponsPage = "/coupons-page";
   static const String offerPage = "/offer-page";
   static const String mediaPage = "/media-page";
+  static const String addressPage = "/address-page";
+  static const String addOffersPage = "/add-offer-page";
+  static const String uploadMediaPage= "/upload-media-page";
 
 
   static String getInitial()=> '$initial';
@@ -34,6 +40,9 @@ class RouteHelper{
   static String getCouponsPage()=> '$couponsPage';
   static String getOfferPage()=> '$offerPage';
   static String getMediaPage()=> '$mediaPage';
+  static String getAddressPage()=> '$addressPage';
+  static String getAddOffersPage()=> '$addOffersPage';
+  static String getUploadMediaPage()=> '$uploadMediaPage';
 
 
   static List<GetPage> routes = [
@@ -99,6 +108,24 @@ class RouteHelper{
         transition: Transition.zoom
     ),
 
+    GetPage(name: addressPage, page: (){
+      return AddressPage();
+    },
+        transition: Transition.zoom
+    ),
+
+
+    GetPage(name: addOffersPage, page: (){
+      return AddOffersPage();
+    },
+        transition: Transition.zoom
+    ),
+
+    GetPage(name: uploadMediaPage, page: (){
+      return Uploadmedia();
+    },
+        transition: Transition.zoom
+    ),
 
 
   ];
