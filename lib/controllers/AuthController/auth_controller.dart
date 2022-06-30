@@ -1,6 +1,8 @@
 import 'package:businesspartner/helper/constants.dart';
 import 'package:businesspartner/helper/repository/AuthRepo.dart';
 import 'package:businesspartner/routes/route_helper.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -34,17 +36,35 @@ class AuthController extends GetxController{
       if(getUserLoginModel.status=="success"){
         box.write(Constants.NAME, getUserLoginModel.userData?.name);
         box.write(Constants.EMAIL, getUserLoginModel.userData?.email);
+        box.write(Constants.OWNERID, getUserLoginModel.userData?.ownerId);
+        box.write(Constants.PROFILEPHOTO, getUserLoginModel.userData?.profilePhoto);
         box.write(Constants.LOGINSTATUS, "true");
+
 
         print(box.read(Constants.NAME));
         Get.offNamed(RouteHelper.getDashboardPage());
       }
 
     } else{
+      Fluttertoast.showToast(
+          msg: "Oohps..failed, Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       print("something went wrong");
     }
 
 
+  }
+
+  logout() {
+
+    box.erase();
+    Get.offNamed(RouteHelper.getInitial());
   }
 
 

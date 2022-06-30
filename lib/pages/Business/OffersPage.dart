@@ -39,7 +39,7 @@ class OfferPage extends StatelessWidget {
               ),
 
               ClipPath(
-                clipper: DolDurmaClipper(right: Dimensions.screenWidth-120, holeRadius: Dimensions.size10),
+                clipper: DolDurmaClipper(right: Dimensions.screenWidth-Dimensions.size120, holeRadius: Dimensions.size10),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
@@ -93,7 +93,7 @@ class OfferPage extends StatelessWidget {
                             ],
                           )),
 
-                      SizedBox(width: Dimensions.size5),
+
                       SizedBox(width: Dimensions.size1,
 
                         child: Container(
@@ -105,8 +105,8 @@ class OfferPage extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(10),
-                                  bottomRight: Radius.circular(10)),
+                                  topRight: Radius.circular(Dimensions.size10),
+                                  bottomRight: Radius.circular(Dimensions.size10)),
                               color: Colors.lightBlueAccent[100],),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,9 +226,9 @@ class OfferPage extends StatelessWidget {
                                                 ),
                                               ),
                                             )),
-                                        SizedBox(height: 10),
+                                        SizedBox(height: Dimensions.size10),
                                         CircleAvatar(
-                                          radius: 25,
+                                          radius: Dimensions.size25,
                                           backgroundImage: const AssetImage(
                                               "assets/images/ic_delete.png"),
                                         ),

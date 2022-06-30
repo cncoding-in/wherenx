@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:get/get.dart';
 
@@ -22,14 +24,23 @@ class CreateBusinessRepo extends GetxController implements GetxService{
 
 
 
-  Future<Response> getCreateBusinessFormRepo(CreateBusinessModel createBusinessModel,String logoPath) async{
+  Future<Response> getCreateBusinessFormRepo(String type, String name,String brief1,String logoPath) async{
 
+    bool path = false;
+    print(box.read(Constants.OWNERID));
+    bool directoryExists = await Directory(logoPath).exists();
+    bool fileExists = await File(logoPath).exists();
+    if(directoryExists || fileExists) {
+      // do stuff
+      path = true;
+    }
     final form = FormData({
-      'property_name':createBusinessModel.dataBusiness?.propertyName,
-      'property_type': createBusinessModel.dataBusiness?.propertyType,
-      'description':createBusinessModel.dataBusiness?.brief,
+      'property_name':name,
+      'property_type': type,
+      'description':brief1,
       'owner_id': box.read(Constants.OWNERID),
-      'logo': MultipartFile(logoPath, filename: 'logo.png'),
+
+      'logo': path==true?MultipartFile(logoPath, filename: 'logo.png'):"no photo",
 
     });
     return await apiClient.postDataWithFile(Constants.CREATEBUSINESS,form );

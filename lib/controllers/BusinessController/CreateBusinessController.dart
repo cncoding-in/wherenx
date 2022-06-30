@@ -80,8 +80,8 @@ class CreateBusinessController extends GetxController{
   final box = GetStorage();
 
   CreateBusinessController({required this.createBusinessRepo});
-  Future<void> getCreateBusinessPostResultData(CreateBusinessModel createBusinessModel)async {
-    Response response = await createBusinessRepo.getCreateBusinessFormRepo(createBusinessModel,compressImagePath.value) ;
+  Future<void> getCreateBusinessPostResultData(String type, String name,String brief1 )async {
+    Response response = await createBusinessRepo.getCreateBusinessFormRepo(type,name,brief1,compressImagePath.value) ;
     if(response.statusCode==200){
       print(response.body.toString());
       final createBusinessModel = CreateBusinessModel.fromJson(response.body);
@@ -131,6 +131,11 @@ class CreateBusinessController extends GetxController{
     }
 
 
+  }
+
+  void clearImage() {
+    compressImagePath.value="";
+    selectedImagePath.value="";
   }
 
 

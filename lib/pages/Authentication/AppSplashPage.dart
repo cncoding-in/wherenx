@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:businesspartner/controllers/AuthController/AppSplashController.dart';
 import 'package:businesspartner/helper/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class _SplashScreenState extends State<AppSplashPage> {
 
   @override
   Widget build(BuildContext context) {
+
     timerMethod();
     return Scaffold(
       body: Container(
@@ -38,7 +40,10 @@ class _SplashScreenState extends State<AppSplashPage> {
 
 
     Timer(const Duration(seconds: 1),
-                ()=> Get.offNamed(RouteHelper.getAuthLoginPage()));
+                ()=>     Get.find<AppSplashControlller>().checkLoginroute());
+
+
+
 
 
     // bool check = getBoolValuesSF() as bool;

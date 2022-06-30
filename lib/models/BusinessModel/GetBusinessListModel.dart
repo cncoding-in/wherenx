@@ -5,10 +5,6 @@ class GetBusinessListModel {
 
   GetBusinessListModel({this.dataBusiness, this.status, this.message});
 
-  late List<GetBusinessListModel> _listData;
-
-  List<GetBusinessListModel> get listData => _listData;
-
   GetBusinessListModel.fromJson(Map<String, dynamic> json) {
     if (json['data_business'] != null) {
       dataBusiness = <DataBusiness>[];
@@ -36,8 +32,8 @@ class DataBusiness {
   int? businessId;
   String? businessName;
   String? logo;
-  Null? status;
-  Null? address;
+  String? status;
+  String? address;
   String? description;
 
   DataBusiness(
@@ -66,5 +62,22 @@ class DataBusiness {
     data['address'] = this.address;
     data['description'] = this.description;
     return data;
+  }
+}
+
+class BusinessListModel2{
+  late List<GetBusinessListModel> _Business;
+  List<GetBusinessListModel> get Business => _Business;
+  BusinessListModel2.fromJson(List<dynamic> json) {
+    if(json != null){
+      _Business = <GetBusinessListModel>[];
+
+      json.forEach((element) {
+        print(element);
+        // var json1 = jsonDecode(element.toString());
+        _Business.add(GetBusinessListModel.fromJson(element));
+      });
+    }
+
   }
 }

@@ -29,11 +29,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-     // initialRoute: RouteHelper.initial,
+      initialRoute: RouteHelper.initial,
     //  initialRoute: RouteHelper.allMenu,
      // initialRoute: RouteHelper.couponsPage,
 
-      initialRoute: RouteHelper.offerPage,
+     // initialRoute: RouteHelper.offerPage,
       //initialRoute: RouteHelper.mediaPage,
       getPages: RouteHelper.routes,
     );

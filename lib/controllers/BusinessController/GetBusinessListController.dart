@@ -1,5 +1,7 @@
 import 'package:businesspartner/helper/repository/GetBusinessListRepo.dart';
 import 'package:businesspartner/models/BusinessModel/GetBusinessListModel.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -7,48 +9,118 @@ class GetBusinessListController extends GetxController{
   final GetBusinessListRepo getBusinessListRepo;
   GetBusinessListController({required this.getBusinessListRepo});
 
-
-  List<dynamic> _getBusinessList=[];
-  List<dynamic> get getAllhBusinessList => _getBusinessList;
+  late var getBusinessListModel = new GetBusinessListModel();
 
 
-  Future<void> getBusinessListGetResult(String owner_id)async {
-    Response response = await getBusinessListRepo.getBusinessListFromRepo(owner_id) ;
+  int length  =0;
+
+
+  Future<void> getBusinessListGetResult()async {
+    Response response = await getBusinessListRepo.getBusinessListFromRepo() ;
     if(response.statusCode==200){
       print(response.body.toString());
-      final getBusinessListModel = GetBusinessListModel.fromJson(response.body);
+     getBusinessListModel  = GetBusinessListModel.fromJson(response.body);
+     length =  (getBusinessListModel.dataBusiness?.length==null? 0
+          : getBusinessListModel.dataBusiness?.length)!;
 
+
+      update();
       print(getBusinessListModel.status);
       print(getBusinessListModel.dataBusiness);
       print(getBusinessListModel.message);
-
+      print(getBusinessListModel.dataBusiness?.length);
       if(getBusinessListModel.status=="success"){
+        Fluttertoast.showToast(
+            msg: "Business list refrshed !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
 
-        print("success YYYYYY ");
-
-     //   return response.body["data_business"];
-
-
-       // _searchBusinessList=[];
-
-       // _getBusinessList.addAll( GetBusinessListModel.fromJson(response.body));
-
-        // box.write(Constants.OTP, forgotPasswordGetModel.data?.otp);
-        // box.write(Constants.OTPID, forgotPasswordGetModel.data?.otpId);
-        // print(box.read(Constants.OTPID));
-        // Get.offNamed(RouteHelper.getAuthForgotPasswordGetPage());
       }else{
+        Fluttertoast.showToast(
+            msg: "No record found !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
 
-        print("not success XXXXXX");
 
       }
 
     } else{
+      // Fluttertoast.showToast(
+      //     msg: "Something went wrong !",
+      //     toastLength: Toast.LENGTH_SHORT,
+      //     gravity: ToastGravity.BOTTOM,
+      //     timeInSecForIosWeb: 1,
+      //     backgroundColor: Colors.orange,
+      //     textColor: Colors.white,
+      //     fontSize: 16.0
+      // );
 
-      print("something went wrong");
     }
 
 
   }
+  //
+  // Future<void> getDeleteBusinessResult (int index) async{
+  //   Response response = await getBusinessListRepo.getBusinessListFromRepo() ;
+  //   if(response.statusCode==200){
+  //     print(response.body.toString());
+  //     getBusinessListModel  = GetBusinessListModel.fromJson(response.body);
+  //     length =  (getBusinessListModel.dataBusiness?.length==null? 0
+  //         : getBusinessListModel.dataBusiness?.length)!;
+  //
+  //
+  //     update();
+  //     print(getBusinessListModel.status);
+  //     print(getBusinessListModel.dataBusiness);
+  //     print(getBusinessListModel.message);
+  //     print(getBusinessListModel.dataBusiness?.length);
+  //     if(getBusinessListModel.status=="success"){
+  //       Fluttertoast.showToast(
+  //           msg: "Business list refrshed !",
+  //           toastLength: Toast.LENGTH_SHORT,
+  //           gravity: ToastGravity.BOTTOM,
+  //           timeInSecForIosWeb: 1,
+  //           backgroundColor: Colors.green,
+  //           textColor: Colors.white,
+  //           fontSize: 16.0
+  //       );
+  //
+  //     }else{
+  //       Fluttertoast.showToast(
+  //           msg: "No record found !",
+  //           toastLength: Toast.LENGTH_SHORT,
+  //           gravity: ToastGravity.BOTTOM,
+  //           timeInSecForIosWeb: 1,
+  //           backgroundColor: Colors.orange,
+  //           textColor: Colors.white,
+  //           fontSize: 16.0
+  //       );
+  //
+  //
+  //     }
+  //
+  //   } else{
+  //     // Fluttertoast.showToast(
+  //     //     msg: "Something went wrong !",
+  //     //     toastLength: Toast.LENGTH_SHORT,
+  //     //     gravity: ToastGravity.BOTTOM,
+  //     //     timeInSecForIosWeb: 1,
+  //     //     backgroundColor: Colors.orange,
+  //     //     textColor: Colors.white,
+  //     //     fontSize: 16.0
+  //     // );
+  //
+  //   }
+  // }
 
 }

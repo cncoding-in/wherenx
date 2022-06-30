@@ -8,6 +8,7 @@ import 'package:businesspartner/helper/repository/ForgotPasswordRepo.dart';
 import 'package:businesspartner/helper/repository/GetBusinessListRepo.dart';
 import 'package:get/get.dart';
 
+import '../controllers/AuthController/AppSplashController.dart';
 import '../controllers/BusinessController/GetBusinessListController.dart';
 import 'api_client.dart';
 import 'constants.dart';
@@ -26,12 +27,14 @@ Future<void> init()async {
 
 
   // controllers
-  Get.lazyPut(() => AuthController(authRepo: Get.find()));
+
+  Get.put<AuthController>(AuthController(authRepo: Get.find()), permanent: true);
   Get.put<ForgotPasswordController>(ForgotPasswordController(forgotPasswordRepo: Get.find()), permanent: true);
   Get.put<CreateBusinessController>(CreateBusinessController(createBusinessRepo: Get.find()), permanent: true);
-  Get.lazyPut(() => ForgotPasswordController(forgotPasswordRepo: Get.find()));
-  Get.lazyPut(() => GetBusinessListController(getBusinessListRepo: Get.find()));
-  Get.lazyPut(() => MediaPageController());
+  Get.put<AppSplashControlller>(AppSplashControlller(), permanent: true);
+  Get.put<GetBusinessListController>(GetBusinessListController(getBusinessListRepo: Get.find()), permanent: true);
+  Get.put<MediaPageController>(MediaPageController(), permanent: true);
+
 
 
 

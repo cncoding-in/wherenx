@@ -20,12 +20,18 @@ class CreateBusiness extends StatefulWidget {
 
 
 class _CreateBusinessState extends State<CreateBusiness> {
+
   TextEditingController nameController = TextEditingController();
   TextEditingController typeController = TextEditingController();
   TextEditingController briefController = TextEditingController();
   bool rebuild = false;
   late String photoUrl ;
 
+  @override
+  void initState() {
+    super.initState();
+    Get.find<CreateBusinessController>().clearImage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -255,15 +261,9 @@ class _CreateBusinessState extends State<CreateBusiness> {
       print(typeController.text);
       print(briefController.text);
 
-      print("else block ");
 
-      CreateBusinessModel createBusinessModel = new CreateBusinessModel();
-      createBusinessModel.dataBusiness?.propertyType= typeController.text;
-      createBusinessModel.dataBusiness?.propertyName= nameController.text;
-      createBusinessModel.dataBusiness?.brief= briefController.text;
-     // createBusinessModel.dataBusiness?.owner_id= box.read(Constants.OWNERID) ;
 
-      Get.find<CreateBusinessController>().getCreateBusinessPostResultData(createBusinessModel);
+      Get.find<CreateBusinessController>().getCreateBusinessPostResultData(typeController.text,nameController.text,briefController.text);
     }
 
   }
