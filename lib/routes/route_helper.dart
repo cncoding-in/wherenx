@@ -1,19 +1,26 @@
 import 'package:businesspartner/pages/Authentication/AuthLoginPage.dart';
 import 'package:businesspartner/pages/Authentication/ForgotPasswordPage.dart';
-import 'package:businesspartner/pages/Business/AddOffersPage.dart';
-import 'package:businesspartner/pages/Business/AddressPage.dart';
-import 'package:businesspartner/pages/Business/AllMenu.dart';
-import 'package:businesspartner/pages/Business/CouponsPage.dart';
+import 'package:businesspartner/pages/MenuItems/AddCouponsPage.dart';
+import 'package:businesspartner/pages/MenuItems/AddOffersPage.dart';
+
+import 'package:businesspartner/pages/MenuItems/AllMenu.dart';
+
 import 'package:businesspartner/pages/Business/CreateBusiness.dart';
 import 'package:businesspartner/pages/Business/Dashboard.dart';
-import 'package:businesspartner/pages/Business/OffersPage.dart';
-import 'package:businesspartner/pages/Business/UploadMedia.dart';
+import 'package:businesspartner/pages/MenuItems/LocationPage.dart';
+
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../pages/Authentication/AppSplashPage.dart';
-import '../pages/Business/MediaPage.dart';
+import '../pages/MenuItems/AddressPage.dart';
+import '../pages/MenuItems/BusinessHoursPage.dart';
+import '../pages/MenuItems/CouponsPage.dart';
+import '../pages/MenuItems/MediaPage.dart';
+import '../pages/MenuItems/OffersPage.dart';
+import '../pages/MenuItems/UploadMedia.dart';
+
 
 
 class RouteHelper{
@@ -29,6 +36,9 @@ class RouteHelper{
   static const String addressPage = "/address-page";
   static const String addOffersPage = "/add-offer-page";
   static const String uploadMediaPage= "/upload-media-page";
+  static const String addCouponsPage= "/add-coupons-page";
+  static const String businessHoursPage= "/business-hours-page";
+  static const String locationPage= "/location-page";
 
 
   static String getInitial()=> '$initial';
@@ -43,6 +53,9 @@ class RouteHelper{
   static String getAddressPage()=> '$addressPage';
   static String getAddOffersPage()=> '$addOffersPage';
   static String getUploadMediaPage()=> '$uploadMediaPage';
+  static String getAddCouponsPage()=> '$addCouponsPage';
+  static String getBusinessHoursPage()=> '$businessHoursPage';
+  static String getLocationPage()=> '$locationPage';
 
 
   static List<GetPage> routes = [
@@ -123,6 +136,24 @@ class RouteHelper{
 
     GetPage(name: uploadMediaPage, page: (){
       return Uploadmedia();
+    },
+        transition: Transition.zoom
+    ),
+
+    GetPage(name: addCouponsPage, page: (){
+      return AddCouponsPage();
+    },
+        transition: Transition.zoom
+    ),
+
+    GetPage(name: businessHoursPage, page: (){
+      return BusinessHoursPage();
+    },
+        transition: Transition.zoom
+    ),
+
+    GetPage(name: locationPage, page: (){
+      return LocationPage();
     },
         transition: Transition.zoom
     ),

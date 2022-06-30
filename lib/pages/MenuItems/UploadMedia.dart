@@ -25,12 +25,6 @@ class _UploadmediaState extends State<Uploadmedia> {
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
           height: Dimensions.size50),
-        // actions: <Widget>[
-        //   // IconButton(
-        //   //   icon: Image.asset('assets/images/ic_manprofile.png'),
-        //   //   onPressed: () => Get.to(RouteHelper.mediaPage),
-        //   // ),
-        // ],
 
       ),
       body: Container(
