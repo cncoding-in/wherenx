@@ -142,6 +142,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                   SizedBox(
                     height:  Dimensions.size20,
                   ),
+
                   TextFormField(
                     //controller: stateController,
                     validator: (value) {

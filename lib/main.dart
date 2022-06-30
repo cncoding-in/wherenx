@@ -35,9 +35,9 @@ class MyApp extends StatelessWidget {
     //  initialRoute: RouteHelper.offerPage,
       //initialRoute: RouteHelper.mediaPage,
      // initialRoute: RouteHelper.addressPage,
-      //initialRoute: RouteHelper.addOffersPage,
+      initialRoute: RouteHelper.addOffersPage,
       //initialRoute: RouteHelper.dashboard,
-      initialRoute: RouteHelper.uploadMediaPage,
+     // initialRoute: RouteHelper.uploadMediaPage,
       getPages: RouteHelper.routes,
     );
   }
