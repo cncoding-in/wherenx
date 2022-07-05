@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
+import 'package:intl/intl.dart';
 import '../../helper/Dimension.dart';
 import '../../routes/route_helper.dart';
 class AddOffersPage extends StatefulWidget {
@@ -16,11 +16,9 @@ class AddOffersPage extends StatefulWidget {
 class _AddOffersPageState extends State<AddOffersPage> {
 
   final _formKey = GlobalKey<FormState>();
-  String selectedGender="";
-  String genderChoose= "";
+  String selectedOffer="";
+  String offerChoose= "";
   String dropdownValue = 'Flat';
-
-
 
   @override
   void initState() {
@@ -92,7 +90,6 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     height:  Dimensions.size20,
                   ),
 
-                  //offer type drop down
 
                   DropdownButton<String>(
                     isExpanded: true,
@@ -120,24 +117,6 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     }).toList(),
                   ),
 
-                  //offer type drop down
-                  // TextFormField(
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return 'Enter Offer Type !';
-                  //     }
-                  //     return null;
-                  //   },
-                  //   decoration:  InputDecoration(
-                  //     border: UnderlineInputBorder(),
-                  //     labelText: 'Offer Type',
-                  //
-                  //   ),
-                  //   // controller: myController,
-                  // ),
-
-
-                  ////offer type
 
                   SizedBox(
                     height:  Dimensions.size20,
@@ -163,10 +142,24 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     height:  Dimensions.size20,
                   ),
 
+
+                  Text(
+                    "Start From",
+                    // style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.lightBlueAccent[700],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height:  Dimensions.size20,
+                  ),
                   Row(
                     children: [
+
                       Text(
-                        "DateTime" ,
+                        DateTime.now().toString(),
                         // style: TextStyle(fontWeight: FontWeight.bold),
                         style: TextStyle(
                           fontSize: 18,
@@ -190,22 +183,49 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     ],
                   ),
 
-                  TextButton(
-                      onPressed: () {
+
+                  Text(
+                    "Valid to",
+                    // style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.lightBlueAccent[700],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height:  Dimensions.size20,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        DateTime.now().toString(),
+                        // style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      IconButton(
+                        icon: new Icon(Icons.calendar_today_outlined), onPressed: () {
                         DatePicker.showDateTimePicker(context,
-                            showTitleActions: true,
-                            minTime:  DateTime.now(),
-                            onChanged: (date) {
-                              print('change $date in time zone ' +
-                                  date.timeZoneOffset.inHours.toString());
-                            }, onConfirm: (date) {
-                              print('confirm $date');
-                            }, );
+                          showTitleActions: true,
+                          minTime:  DateTime.now(),
+                          onChanged: (date) {
+                            print('change $date in time zone ' +
+                                date.timeZoneOffset.inHours.toString());
+                          }, onConfirm: (date) {
+                            print('confirm $date');
+                          }, );
                       },
-                      child: Text(
-                        'show date time picker (Chinese)',
-                        style: TextStyle(color: Colors.blue),
-                      )),
+                      ) ,
+                    ],
+                  ),
+
+                  SizedBox(
+                    height:  Dimensions.size20,
+                  ),
 
                   Center(
                     child: Column(
@@ -217,7 +237,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                            // addAddress();
 
                           },
-                          child: Text('SUBMIT'),
+                          child: Text('SAVE'),
                           style: ElevatedButton.styleFrom(
                             minimumSize:
                             Size(MediaQuery.of(context).size.width, 50),
