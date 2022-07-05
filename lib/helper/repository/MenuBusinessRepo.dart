@@ -21,7 +21,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
 
 
   Future<Response> getMenuDetailsResultFromRepo() async{
-    return await apiClient.get(Constants.GETBUSINESSDETAILS+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+    return await apiClient.getData(Constants.GETBUSINESSDETAILS+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
   }
 
 
@@ -51,7 +51,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   //Location
 
   Future<Response> getMenuLocationResultFromRepo() async{
-    return await apiClient.get(Constants.MENUBUSINESSLOCATION+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+    return await apiClient.getData(Constants.MENUBUSINESSLOCATION+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
   }
 
   Future<Response> getMenuLocationPostResultFromRepo(getLatitude, getLongitude) async{
@@ -62,7 +62,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   // coupon
 
   Future<Response> getMenuCouponResultFromRepo() async{
-    return await apiClient.get(Constants.MENUCOUPONSGET+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+    return await apiClient.getData(Constants.MENUCOUPONSGET+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
   }
 
   Future<Response> getMenuAddCouponResultFromRepo(String dropdownValue, String discountType, String couponCode, String startDateAndTime, String endDateAndTime) async{
