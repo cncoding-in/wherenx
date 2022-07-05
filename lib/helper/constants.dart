@@ -21,6 +21,9 @@ class Constants {
   static const String MENUBUSINESSLOCATION = "businesspartner/business-location?";
   static const String MENUBUSINESSLOCATIONPOST = "businesspartner/business-location";
 
+  static const String MENUCOUPONSGET = "businesspartner/business-coupon?";
+  static const String MENUCOUPONSPOST = "businesspartner/business-coupon";
+
 
 
   //authentication details
