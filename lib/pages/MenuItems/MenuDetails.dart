@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:businesspartner/controllers/BusinessController/CreateBusinessController.dart';
+import 'package:businesspartner/controllers/BusinessController/MenuBusinessController.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -10,16 +11,16 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../helper/constants.dart';
-class CreateBusiness extends StatefulWidget {
-  const CreateBusiness({Key? key}) : super(key: key);
+class MenuDetails extends StatefulWidget {
+  const MenuDetails({Key? key}) : super(key: key);
 
   @override
-  State<CreateBusiness> createState() => _CreateBusinessState();
+  State<MenuDetails> createState() => _MenuDetailsState();
 
 }
 
 
-class _CreateBusinessState extends State<CreateBusiness> {
+class _MenuDetailsState extends State<MenuDetails> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController typeController = TextEditingController();
@@ -31,16 +32,28 @@ class _CreateBusinessState extends State<CreateBusiness> {
   void initState() {
     super.initState();
     Get.find<CreateBusinessController>().clearImage();
+
+
+    // typeController.text =
+    // Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness..toString()==null?
+    // "":
+
+    // nameController.text = Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness!.businessName.toString()!;
+    //
+    // briefController.text =  Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness!.description.toString()!;
   }
 
   @override
   Widget build(BuildContext context) {
+    Get.find<MenuBusinessController>().getMenuBusinessDetailsResult();
 
+   // print(Get.find<MenuBusinessController>().createBusinessModel.dataBusiness!.propertyType.toString());
     // print(box.read(Constants.OWNERID));
     // int owner_id = box.read(Constants.OWNERID);
     // print("owner id : "+owner_id.toString());
 
-   // Get.find<CreateBusinessController>().getCreateBusinessResultData(createBusinessModel);
+    nameController.text = Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness?.businessName.toString()??"";
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -51,16 +64,16 @@ class _CreateBusinessState extends State<CreateBusiness> {
       ),
 
       body:
-      GetBuilder<CreateBusinessController>(builder: (business) {
-    // if(!rebuild){
-    //
-    // business.propertyType != null ? typeController.text = business.propertyType! : "";
-    // business.propertyName != null ? nameController.text = business.propertyName! : "";
-    // business.brief != null ? briefController.text = business.brief! : "";
-    // business.photoPath != null ? photoUrl = business.photoPath! : "";
-    //
-    //
-    // }
+      GetBuilder<MenuBusinessController>(builder: (business) {
+
+
+    business.propertyType != null ? typeController.text = business.propertyType! : "";
+    business.propertyName != null ? nameController.text = business.propertyName! : "";
+    business.brief != null ? briefController.text = business.brief! : "";
+    business.photoPath != null ? photoUrl = business.photoPath! : "";
+
+
+
      return Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -90,12 +103,12 @@ class _CreateBusinessState extends State<CreateBusiness> {
                   Center(
                     child: Stack(
                       children: [
-                        Obx(() => Get.find<CreateBusinessController>().selectedImagePath==""?
+                        Obx(() => Get.find<MenuBusinessController>().selectedImagePath==""?
                         CircleAvatar(
                           radius: 80,
                           backgroundColor: Colors.white,
                           backgroundImage: NetworkImage(
-                            "https://st3.depositphotos.com/3538469/15313/i/600/depositphotos_153133738-stock-photo-vector-user-icon.jpg"
+                              Get.find<MenuBusinessController>().createBusinessModel.dataBusiness!.logo.toString()
                             ,
                           ),
                         )
@@ -103,14 +116,14 @@ class _CreateBusinessState extends State<CreateBusiness> {
                         CircleAvatar(
                           radius: 80,
                           backgroundColor: Colors.white,
-                          backgroundImage: FileImage(File(Get.find<CreateBusinessController>().selectedImagePath.value)),
+                          backgroundImage: FileImage(File(Get.find<MenuBusinessController>().selectedImagePath.value)),
                         )
                         ),
 
 
                         GestureDetector(
                           onTap: (){
-                            Get.find<CreateBusinessController>().getImage(ImageSource.gallery);
+                            Get.find<MenuBusinessController>().getImage(ImageSource.gallery);
                           },
                           child: Container(
                             child: Padding(
@@ -222,7 +235,7 @@ class _CreateBusinessState extends State<CreateBusiness> {
                           onPressed: () {
                             createBusiness();
                           },
-                          child: Text('Next'),
+                          child: Text('Save'),
                           style: ElevatedButton.styleFrom(
                             minimumSize:
                             Size(MediaQuery.of(context).size.width, 50),
@@ -240,7 +253,9 @@ class _CreateBusinessState extends State<CreateBusiness> {
       );
       }),
     );
+
   }
+
 
   void createBusiness() {
 
@@ -261,9 +276,7 @@ class _CreateBusinessState extends State<CreateBusiness> {
       print(typeController.text);
       print(briefController.text);
 
-
-
-      Get.find<CreateBusinessController>().getCreateBusinessPostResultData(typeController.text,nameController.text,briefController.text);
+      Get.find<MenuBusinessController>().getBusinessDetailsPostResultData(typeController.text,nameController.text,briefController.text);
     }
 
   }

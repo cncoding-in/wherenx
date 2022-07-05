@@ -67,6 +67,7 @@ class AuthController extends GetxController{
   logout() {
 
     box.erase();
+    Constants.OWNERID_DATA="";
     Get.offNamed(RouteHelper.getInitial());
   }
 

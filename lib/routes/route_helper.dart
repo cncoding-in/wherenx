@@ -3,17 +3,18 @@ import 'package:businesspartner/pages/Authentication/ForgotPasswordPage.dart';
 import 'package:businesspartner/pages/Business/AddOffersPage.dart';
 import 'package:businesspartner/pages/Business/AddressPage.dart';
 import 'package:businesspartner/pages/Business/AllMenu.dart';
-import 'package:businesspartner/pages/Business/CouponsPage.dart';
+import 'package:businesspartner/pages/MenuItems/CouponsPage.dart';
 import 'package:businesspartner/pages/Business/CreateBusiness.dart';
 import 'package:businesspartner/pages/Business/Dashboard.dart';
-import 'package:businesspartner/pages/Business/OffersPage.dart';
-import 'package:businesspartner/pages/Business/UploadMedia.dart';
+import 'package:businesspartner/pages/MenuItems/MenuDetails.dart';
+import 'package:businesspartner/pages/MenuItems/OffersPage.dart';
+import 'package:businesspartner/pages/MenuItems/UploadMedia.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../pages/Authentication/AppSplashPage.dart';
-import '../pages/Business/MediaPage.dart';
+
 
 
 class RouteHelper{
@@ -30,6 +31,8 @@ class RouteHelper{
   static const String addOffersPage = "/add-offer-page";
   static const String uploadMediaPage= "/upload-media-page";
 
+  static const String menuDetails= "/menu-business-details";
+
 
   static String getInitial()=> '$initial';
   static String getAuthLoginPage()=> '$authlogInPage';
@@ -43,6 +46,8 @@ class RouteHelper{
   static String getAddressPage()=> '$addressPage';
   static String getAddOffersPage()=> '$addOffersPage';
   static String getUploadMediaPage()=> '$uploadMediaPage';
+
+  static String getMenuDetails()=> '$menuDetails';
 
 
   static List<GetPage> routes = [
@@ -74,7 +79,6 @@ class RouteHelper{
         transition: Transition.zoom
     ),
 
-
     //Dashboard page
     GetPage(name: dashboard, page: (){
       return Dashboard();
@@ -102,11 +106,7 @@ class RouteHelper{
         transition: Transition.zoom
     ),
 
-    GetPage(name: mediaPage, page: (){
-      return MediaPage();
-    },
-        transition: Transition.zoom
-    ),
+
 
     GetPage(name: addressPage, page: (){
       return AddressPage();
@@ -127,7 +127,12 @@ class RouteHelper{
         transition: Transition.zoom
     ),
 
-
+    //Menu Business Details page
+    GetPage(name: menuDetails, page: (){
+      return MenuDetails();
+    },
+        transition: Transition.zoom
+    ),
   ];
 
 

@@ -16,6 +16,11 @@ class Constants {
   static const String BUSINESSDETAILS = "businesspartner/business-details?";
   static const String GETBUSINESSLIST = "businesspartner/get-business-list?owner_id=";
 
+  static const String GETBUSINESSDETAILS = "businesspartner/business-details?";
+  static const String BUSINESSDETAILSSAVE = "businesspartner/business-details";
+
+
+
   //authentication details
   static const String LOGINSTATUS = "0";
 
@@ -35,8 +40,21 @@ class Constants {
   static const String PINCODE = "pincode";
 
   //Forgot Password
-  static const String OTP = "otp";
-  static const String OTPID = "otpid";
+  static  String OTP = "otp";
+  static  String OTPID = "otpid";
+
+
+// For app help
+
+  static String OWNERID_DATA="";
+
+
+  // For menu items
+  static String MENU_BUSINESS_INDEX = "";
+  static String MENU_BUSINESS_ID = "";
+  static String MENU_BUSINESS_NAME = "";
+
+
 
 
 

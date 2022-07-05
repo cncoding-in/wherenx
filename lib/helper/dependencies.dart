@@ -2,10 +2,12 @@ import 'package:businesspartner/controllers/AuthController/auth_controller.dart'
 import 'package:businesspartner/controllers/AuthController/forgot_password_controller.dart';
 import 'package:businesspartner/controllers/BusinessController/CreateBusinessController.dart';
 import 'package:businesspartner/controllers/BusinessController/MediaPageController.dart';
+import 'package:businesspartner/controllers/BusinessController/MenuBusinessController.dart';
 import 'package:businesspartner/helper/repository/AuthRepo.dart';
 import 'package:businesspartner/helper/repository/CreateBusinessRepo.dart';
 import 'package:businesspartner/helper/repository/ForgotPasswordRepo.dart';
 import 'package:businesspartner/helper/repository/GetBusinessListRepo.dart';
+import 'package:businesspartner/helper/repository/MenuBusinessRepo.dart';
 import 'package:get/get.dart';
 
 import '../controllers/AuthController/AppSplashController.dart';
@@ -24,6 +26,7 @@ Future<void> init()async {
   Get.lazyPut(() => ForgotPasswordRepo(apiClient: Get.find()));
   Get.lazyPut(() => CreateBusinessRepo(apiClient: Get.find()));
   Get.lazyPut(() => GetBusinessListRepo(apiClient: Get.find()));
+  Get.lazyPut(() => MenuBusinessrepo(apiClient: Get.find()));
 
 
   // controllers
@@ -34,6 +37,7 @@ Future<void> init()async {
   Get.put<AppSplashControlller>(AppSplashControlller(), permanent: true);
   Get.put<GetBusinessListController>(GetBusinessListController(getBusinessListRepo: Get.find()), permanent: true);
   Get.put<MediaPageController>(MediaPageController(), permanent: true);
+  Get.put<MenuBusinessController>(MenuBusinessController(menuBusinessrepo: Get.find() ), permanent: true);
 
 
 

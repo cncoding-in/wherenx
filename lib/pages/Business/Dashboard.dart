@@ -1,19 +1,14 @@
 import 'package:businesspartner/controllers/AuthController/auth_controller.dart';
 import 'package:businesspartner/controllers/BusinessController/CreateBusinessController.dart';
 import 'package:businesspartner/helper/Dimension.dart';
-import 'package:businesspartner/routes/route_helper.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:rolling_switch/rolling_switch.dart';
 
-import '../../controllers/AuthController/forgot_password_controller.dart';
 import '../../controllers/BusinessController/GetBusinessListController.dart';
-import '../../models/BusinessModel/GetBusinessListModel.dart';
-import '../../routes/route_helper.dart';
-import '../../routes/route_helper.dart';
-import '../../routes/route_helper.dart';
-import '../../routes/route_helper.dart';
+
 import 'CreateBusiness.dart';
 
 class Dashboard extends StatefulWidget {
@@ -238,10 +233,15 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                   ),
                                   SizedBox(height: 10),
-                                  CircleAvatar(
-                                    radius: 25,
-                                    backgroundImage: const AssetImage(
-                                        "assets/images/ic_edit.png"),
+                                  GestureDetector(
+                                    onTap: (){
+                                      editBusiness(index);
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 25,
+                                      backgroundImage: const AssetImage(
+                                          "assets/images/ic_edit.png"),
+                                    ),
                                   ),
                                   SizedBox(height: Dimensions.size10),
                                 ],
@@ -279,6 +279,23 @@ class _DashboardState extends State<Dashboard> {
 
   void deleteBusiness(int index) {
     // Get.find<GetBusinessListController>().getDeleteBusinessResult(index) ;
+  }
+
+  void editBusiness(int index) {
+    //
+    // Get.defaultDialog(title: "Alert",
+    // textConfirm: "yes",
+    //   textCancel: "no",
+    //
+    // );
+   //  Get.snackbar('Hi', 'Message',
+   //      snackPosition: SnackPosition.BOTTOM,
+   //    showProgressIndicator: true,
+   //    isDismissible: false,
+   //      duration: Duration(seconds: 10)
+   //  );
+
+    Get.find<GetBusinessListController>().getEditBusinessResult(index);
   }
 
 }
