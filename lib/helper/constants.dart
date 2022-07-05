@@ -24,6 +24,9 @@ class Constants {
   static const String MENUCOUPONSGET = "businesspartner/business-coupon?";
   static const String MENUCOUPONSPOST = "businesspartner/business-coupon";
 
+  static const String MENUGETADDRESS = "businesspartner/business-address?";
+  static const String MENUADDADDRESS = "businesspartner/business-address";
+
 
 
   //authentication details
@@ -51,6 +54,12 @@ class Constants {
   //Coupon
   static  String COUPONID = "";
 
+  //Address
+  static  String? ASTATE = "";
+  static  String? ACITY = "";
+  static  String? ACOUNTRY = "";
+  static  String? AADDRESS  = "";
+  static  String? APINCODE  = "";
 
 // For app help
 

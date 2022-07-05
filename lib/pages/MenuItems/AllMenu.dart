@@ -92,38 +92,43 @@ class _AllMenuState extends State<AllMenu> {
                       ),
                   ),
                     SizedBox(width: Dimensions.size5),
-                    Expanded(
-                      flex: 5,
-                      child: Card(
-                          elevation: 5.0,
-                          shadowColor: Colors.grey,
-                          color: Colors.grey[300],
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(Dimensions.size20),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Container(
-                                  padding: EdgeInsets.all(Dimensions.size5),
-                                  child: Row(
-                                    children: [
-                                      Image.asset('assets/images/ic_property_address_0.png',width: Dimensions.size55,height: Dimensions.size85,),
-                                      Text(
-                                        "ADDRESS",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: Dimensions.size20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
+                    GestureDetector(
+                      onTap: (){
+                        Get.find<MenuBusinessController>().getMenuADDRESSDetails();
+                      },
+                      child: Expanded(
+                        flex: 5,
+                        child: Card(
+                            elevation: 5.0,
+                            shadowColor: Colors.grey,
+                            color: Colors.grey[300],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(Dimensions.size20),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(Dimensions.size5),
+                                    child: Row(
+                                      children: [
+                                        Image.asset('assets/images/ic_property_address_0.png',width: Dimensions.size55,height: Dimensions.size85,),
+                                        Text(
+                                          "ADDRESS",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: Dimensions.size20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
+                              ],
+                            )
+                        ),
                       ),
                     ),
 

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:businesspartner/helper/repository/MenuBusinessRepo.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:businesspartner/models/MenuItems/GetMenuBusinessDetailsModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuAddressModel.dart';
 import 'package:businesspartner/models/MenuItems/MenuCouponGetModel.dart';
 import 'package:businesspartner/models/MenuItems/MenuLocationModel.dart';
 import 'package:businesspartner/pages/Helper/Loading.dart';
@@ -52,6 +53,7 @@ class MenuBusinessController extends GetxController{
   late var createBusinessModel = new CreateBusinessModel();
   late var menuLocationModel = new MenuLocationModel();
   late var menuCouponModel = new MenuCouponModel();
+  late var menuAddressModel = new MenuAddressModel();
   late var menuDeatilsModel = new GetMenuBusinessDetailsModel();
 
   Loading loading = new Loading();
@@ -344,11 +346,86 @@ class MenuBusinessController extends GetxController{
   }
 
 
+  // for Address
+
+  Future<void> getMenuADDRESSDetails()async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuAddressResultFromRepo() ;
+
+    print(response.body.toString());
+    if(response.statusCode==200){
+
+      menuAddressModel  = MenuAddressModel.fromJson(response.body);
+
+      print(response.body.toString());
+      if(menuAddressModel.status=="success"){
+        Constants.ASTATE =menuAddressModel.dataBusiness?.state;
+        Constants.ACITY =menuAddressModel.dataBusiness?.city;
+        Constants.ACOUNTRY =menuAddressModel.dataBusiness?.country;
+        Constants.AADDRESS =menuAddressModel.dataBusiness?.address;
+        Constants.APINCODE =menuAddressModel.dataBusiness?.state;
+      }
+
+      loading.hideLoading();
+      Get.toNamed(RouteHelper.getAddressPage());
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
 
 
+  }
 
 
+  Future<void> getMenuAddAddressResult(String state, String city, String country, String address, String pincode,)async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuAddAddressResultFromRepo(state,city,country,address,pincode) ;
+    print(response.body.toString());
+
+    if(response.statusCode==200){
+
+      menuAddressModel  = MenuAddressModel.fromJson(response.body);
+
+      print(menuAddressModel.dataBusiness?.state);
+      if(menuAddressModel.status=="success"){
+        Constants.ASTATE =menuAddressModel.dataBusiness?.state;
+        Constants.ACITY =menuAddressModel.dataBusiness?.city;
+        Constants.ACOUNTRY =menuAddressModel.dataBusiness?.country;
+        Constants.AADDRESS =menuAddressModel.dataBusiness?.address;
+        Constants.APINCODE =menuAddressModel.dataBusiness?.state;
+      }
+
+      loading.hideLoading();
+     // Get.toNamed(RouteHelper.getAllMenu());
+      Get.back();
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
 
 
+  }
 
 }

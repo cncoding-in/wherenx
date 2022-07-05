@@ -55,7 +55,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   }
 
   Future<Response> getMenuLocationPostResultFromRepo(getLatitude, getLongitude) async{
-    return await apiClient.post(Constants.MENUBUSINESSLOCATIONPOST,toJsonForLocationPost(getLatitude, getLongitude));
+    return await apiClient.postData(Constants.MENUBUSINESSLOCATIONPOST,toJsonForLocationPost(getLatitude, getLongitude));
   }
 
 
@@ -66,7 +66,20 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   }
 
   Future<Response> getMenuAddCouponResultFromRepo(String dropdownValue, String discountType, String couponCode, String startDateAndTime, String endDateAndTime) async{
-    return await apiClient.post(Constants.MENUCOUPONSPOST, toJsonForAddCouponPost(dropdownValue,discountType,couponCode,startDateAndTime,endDateAndTime));
+    return await apiClient.postData(Constants.MENUCOUPONSPOST, toJsonForAddCouponPost(dropdownValue,discountType,couponCode,startDateAndTime,endDateAndTime));
+
+  }
+
+
+  // ADDRESS
+
+  Future<Response> getMenuAddressResultFromRepo() async{
+    return await apiClient.getData(Constants.MENUGETADDRESS+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
+
+
+  Future<Response> getMenuAddAddressResultFromRepo(String state, String city, String country, String address, String pincode) async{
+    return await apiClient.postData(Constants.MENUADDADDRESS, toJsonForAddAddressPost(state,city,country,address,pincode));
 
   }
 
@@ -99,4 +112,15 @@ class MenuBusinessrepo extends GetxController implements GetxService{
     return data;
   }
 
+  Map<String, dynamic> toJsonForAddAddressPost(String state, String city, String country, String address, String pincode){
+    final Map<String,String> data = new Map<String,String>();
+    data["business_id"] = Constants.MENU_BUSINESS_ID;
+    data["owner_id"] = Constants.OWNERID_DATA;
+    data["state"] = state;
+    data["city"] = city;
+    data["country"] = country;
+    data["address"] = address;
+    data["pincode"] = pincode;
+    return data;
+  }
 }

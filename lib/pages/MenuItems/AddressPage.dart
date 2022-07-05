@@ -1,3 +1,5 @@
+import 'package:businesspartner/controllers/BusinessController/MenuBusinessController.dart';
+import 'package:businesspartner/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,8 @@ class AddressPage extends StatefulWidget {
 
 }
 
+
+
 class _AddressPageState extends State<AddressPage> {
   final _formKey = GlobalKey<FormState>();
 
@@ -21,6 +25,16 @@ class _AddressPageState extends State<AddressPage> {
   TextEditingController countryController = TextEditingController();
   TextEditingController zipController = TextEditingController();
 
+
+  @override
+  void initState() {
+    addressController.text = (Constants.AADDRESS ?? "")!;
+    cityController.text = (Constants.ACITY ?? "")!;
+    stateController.text = (Constants.ASTATE ?? "")!;
+    countryController.text = (Constants.ACOUNTRY ?? "")!;
+    zipController.text = (Constants.APINCODE ?? "")!;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,14 +220,16 @@ class _AddressPageState extends State<AddressPage> {
 
     if (_formKey.currentState!.validate()) {
 
-        Fluttertoast.showToast(
-            msg: "Submited ",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0);
+      Get.find<MenuBusinessController>().getMenuAddAddressResult(addressController.text, cityController.text
+          , countryController.text, addressController.text, zipController.text);
+        // Fluttertoast.showToast(
+        //     msg: "Submited ",
+        //     toastLength: Toast.LENGTH_SHORT,
+        //     gravity: ToastGravity.BOTTOM,
+        //     timeInSecForIosWeb: 1,
+        //     backgroundColor: Colors.green,
+        //     textColor: Colors.white,
+        //     fontSize: 16.0);
 
         //ScaffoldMessenger.of(context).showSnackBar(
         //  const SnackBar(content: Text('Check Data error...')),
