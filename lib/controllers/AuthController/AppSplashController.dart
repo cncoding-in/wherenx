@@ -15,7 +15,7 @@ class AppSplashControlller extends GetxController{
     if(box.read(Constants.LOGINSTATUS)!=null){
 
       if (box.read(Constants.LOGINSTATUS) == "true"){
-
+        print(Constants.OWNERID_DATA);
         Constants.OWNERID_DATA = box.read(Constants.OWNERID).toString();
         Get.offNamed(RouteHelper.getDashboardPage());
       }

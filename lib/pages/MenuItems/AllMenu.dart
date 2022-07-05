@@ -301,38 +301,43 @@ class _AllMenuState extends State<AllMenu> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                Expanded(
-                  flex: 5,
-                  child: Card(
-                      elevation: 5.0,
-                      shadowColor: Colors.grey,
-                      color: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.size20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Container(
-                              padding: EdgeInsets.all(Dimensions.size5),
-                              child: Row(
-                                children: [
-                                  Image.asset('assets/images/ic_property_coupons_0.png',width: Dimensions.size55,height: Dimensions.size85,),
-                                  Text(
-                                    "COUPONS",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: Dimensions.size20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                GestureDetector(
+                  onTap: (){
+                    Get.find<MenuBusinessController>().getMenuCouponDetails();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Card(
+                        elevation: 5.0,
+                        shadowColor: Colors.grey,
+                        color: Colors.grey[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(Dimensions.size20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.all(Dimensions.size5),
+                                child: Row(
+                                  children: [
+                                    Image.asset('assets/images/ic_property_coupons_0.png',width: Dimensions.size55,height: Dimensions.size85,),
+                                    Text(
+                                      "COUPONS",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: Dimensions.size20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
+                          ],
+                        )
+                    ),
                   ),
                 ),
                 SizedBox(width: Dimensions.size5),

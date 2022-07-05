@@ -32,6 +32,8 @@ class ApiClient extends GetConnect implements GetxService{
     }
 
   Future<Response> postData(String uri, dynamic body) async {
+    print(uri);
+
     try{
       print(body.toString());
 

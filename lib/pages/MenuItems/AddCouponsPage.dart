@@ -1,6 +1,11 @@
+import 'package:businesspartner/controllers/BusinessController/MenuBusinessController.dart';
+import 'package:businesspartner/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 import '../../helper/Dimension.dart';
 class AddCouponsPage extends StatefulWidget {
   const AddCouponsPage({Key? key}) : super(key: key);
@@ -15,9 +20,32 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
   String selectedCoupons="";
   String couponsChoose= "";
   String dropdownValue = 'Flat';
+  String labelDiscount="Flat";
+
+  DateTime startDate =DateTime.now();
+  DateTime endDate =DateTime.now();
+   String startDateAndTime ="";
+   String endDateAndTime="";
+
+  TextEditingController propertyController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  TextEditingController couponController = TextEditingController();
+
+
+
+  @override
+  void initState() {
+    setState(() {
+
+      startDateAndTime = DateFormat('yyyy-MM-dd – kk:mm').format(startDate);
+      endDateAndTime =  DateFormat('yyyy-MM-dd – kk:mm').format(endDate);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    propertyController.text = Constants.PROPERTY_NAME.toString();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -65,6 +93,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                       border: UnderlineInputBorder(),
                       labelText: 'Property',
                     ),
+                    controller: propertyController,
                     //  controller: myController,
                   ),
                   //city
@@ -87,6 +116,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownValue = newValue!;
+
                       });
                     },
                     items: <String>['Flat', 'percentage' ]
@@ -105,7 +135,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                   ),
 
                   TextFormField(
-                    //controller: stateController,
+                    controller: discountController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter Percentage !';
@@ -114,7 +144,26 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                     },
                     decoration:  InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Percentage',
+                      labelText: dropdownValue,
+
+                    ),
+                    // controller: myController,
+                  ),
+
+                  SizedBox(
+                    height:  Dimensions.size20,
+                  ),
+                  TextFormField(
+                    controller: couponController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter Coupon Code !';
+                      }
+                      return null;
+                    },
+                    decoration:  InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: "Enter Coupon Code",
 
                     ),
                     // controller: myController,
@@ -141,7 +190,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                     children: [
 
                       Text(
-                        DateTime.now().toString(),
+                        startDateAndTime,
                         // style: TextStyle(fontWeight: FontWeight.bold),
                         style: TextStyle(
                           fontSize: 18,
@@ -154,11 +203,16 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                         DatePicker.showDateTimePicker(context,
                           showTitleActions: true,
                           minTime:  DateTime.now(),
+
                           onChanged: (date) {
                             print('change $date in time zone ' +
                                 date.timeZoneOffset.inHours.toString());
                           }, onConfirm: (date) {
                             print('confirm $date');
+                            setState(() {
+
+                             startDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                            });
                           }, );
                       },
                       ) ,
@@ -181,7 +235,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                   Row(
                     children: [
                       Text(
-                        DateTime.now().toString(),
+                        endDateAndTime,
                         // style: TextStyle(fontWeight: FontWeight.bold),
                         style: TextStyle(
                           fontSize: 18,
@@ -199,6 +253,9 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                                 date.timeZoneOffset.inHours.toString());
                           }, onConfirm: (date) {
                             print('confirm $date');
+                            setState(() {
+                              endDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                            });
                           }, );
                       },
                       ) ,
@@ -217,6 +274,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                           onPressed: () {
 
                             // addAddress();
+                            addCoupon();
 
                           },
                           child: Text('SAVE'),
@@ -235,5 +293,26 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
       ),
 
     );
+  }
+
+  void addCoupon() {
+
+    if(discountController.text.isEmpty ){
+      Fluttertoast.showToast(
+          msg: "Some data missing, check correctly !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+    }else{
+      Get.find<MenuBusinessController>().getMenuAddCouponResult(dropdownValue,discountController.text,couponController.text
+      ,startDateAndTime,endDateAndTime);
+
+    }
+
   }
 }

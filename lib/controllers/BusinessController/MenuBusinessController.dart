@@ -5,10 +5,12 @@ import 'dart:io';
 import 'package:businesspartner/helper/repository/MenuBusinessRepo.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:businesspartner/models/MenuItems/GetMenuBusinessDetailsModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuCouponGetModel.dart';
 import 'package:businesspartner/models/MenuItems/MenuLocationModel.dart';
 import 'package:businesspartner/pages/Helper/Loading.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,7 @@ import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../helper/constants.dart';
 import '../../routes/route_helper.dart';
 
 class MenuBusinessController extends GetxController{
@@ -41,8 +44,14 @@ class MenuBusinessController extends GetxController{
   String? latValue='null';
   String? lngValue='null';
 
+  // coupon
+
+  int length  =0;
+
+
   late var createBusinessModel = new CreateBusinessModel();
   late var menuLocationModel = new MenuLocationModel();
+  late var menuCouponModel = new MenuCouponModel();
   late var menuDeatilsModel = new GetMenuBusinessDetailsModel();
 
   Loading loading = new Loading();
@@ -236,7 +245,6 @@ class MenuBusinessController extends GetxController{
       print(response.body.toString());
 
       if(menuLocationModel.status=="success"){
-
         loading.hideLoading();
         Get.back();
       }
@@ -257,6 +265,89 @@ class MenuBusinessController extends GetxController{
 
 
   }
+
+
+  // for coupon
+
+  Future<void> getMenuCouponDetails()async {
+    loading..showLoading(title: "Please wait...");
+    print(Constants.OWNERID_DATA);
+    Response response = await menuBusinessrepo.getMenuCouponResultFromRepo() ;
+
+
+    if(response.statusCode==200){
+
+      menuCouponModel  = MenuCouponModel.fromJson(response.body);
+      length =  (menuCouponModel.offerData?.length==null? 0
+          : menuCouponModel.offerData?.length)!;
+      update();
+      print(response.body.toString());
+      if(menuLocationModel.status=="success"){
+
+
+
+      }
+
+      loading.hideLoading();
+      Get.toNamed(RouteHelper.getCouponsPage());
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+
+  Future<void> getMenuAddCouponResult(String dropdownValue, String discountType, String couponCode, String startDateAndTime, String endDateAndTime)async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuAddCouponResultFromRepo(dropdownValue,discountType,couponCode,startDateAndTime,endDateAndTime) ;
+
+
+    if(response.statusCode==200){
+
+
+      print(response.body.toString());
+      if(menuLocationModel.status=="success"){
+
+      }
+
+      loading.hideLoading();
+      Get.toNamed(RouteHelper.getAllMenu());
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+
+
+
+
+
 
 
 

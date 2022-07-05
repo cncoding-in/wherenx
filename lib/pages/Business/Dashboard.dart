@@ -115,7 +115,7 @@ class _DashboardState extends State<Dashboard> {
                                                       children: [
                                                         Wrap(children: <Widget>[
                                                           Container(
-                                                            width: Dimensions.size140,
+                                                            width: Dimensions.size130,
                                                             child: Text(
                                                               businessList.getBusinessListModel.dataBusiness![index].businessName.toString(),
                                                               style: TextStyle(
@@ -282,18 +282,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void editBusiness(int index) {
-    //
-    // Get.defaultDialog(title: "Alert",
-    // textConfirm: "yes",
-    //   textCancel: "no",
-    //
-    // );
-   //  Get.snackbar('Hi', 'Message',
-   //      snackPosition: SnackPosition.BOTTOM,
-   //    showProgressIndicator: true,
-   //    isDismissible: false,
-   //      duration: Duration(seconds: 10)
-   //  );
+
 
     Get.find<GetBusinessListController>().getEditBusinessResult(index);
   }

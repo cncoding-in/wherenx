@@ -26,7 +26,6 @@ class GetBusinessListController extends GetxController{
      getBusinessListModel  = GetBusinessListModel.fromJson(response.body);
      length =  (getBusinessListModel.dataBusiness?.length==null? 0
           : getBusinessListModel.dataBusiness?.length)!;
-
       update();
       print(getBusinessListModel.status);
       print(getBusinessListModel.dataBusiness);
@@ -64,6 +63,7 @@ class GetBusinessListController extends GetxController{
   void getEditBusinessResult(int index) {
     Constants.MENU_BUSINESS_INDEX = index.toString();
     Constants.MENU_BUSINESS_ID = getBusinessListModel.dataBusiness![index].businessId.toString();
+    Constants.PROPERTY_NAME = getBusinessListModel.dataBusiness![index].businessName.toString();
     Get.toNamed(RouteHelper.getAllMenu());
   }
 

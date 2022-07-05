@@ -48,10 +48,14 @@ class Constants {
   static  String OTP = "otp";
   static  String OTPID = "otpid";
 
+  //Coupon
+  static  String COUPONID = "";
+
 
 // For app help
 
   static String OWNERID_DATA="";
+  static String PROPERTY_NAME="";
 
 
   // For menu items

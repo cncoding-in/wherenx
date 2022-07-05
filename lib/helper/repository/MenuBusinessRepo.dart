@@ -58,6 +58,18 @@ class MenuBusinessrepo extends GetxController implements GetxService{
     return await apiClient.post(Constants.MENUBUSINESSLOCATIONPOST,toJsonForLocationPost(getLatitude, getLongitude));
   }
 
+
+  // coupon
+
+  Future<Response> getMenuCouponResultFromRepo() async{
+    return await apiClient.get(Constants.MENUCOUPONSGET+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
+
+  Future<Response> getMenuAddCouponResultFromRepo(String dropdownValue, String discountType, String couponCode, String startDateAndTime, String endDateAndTime) async{
+    return await apiClient.post(Constants.MENUCOUPONSPOST, toJsonForAddCouponPost(dropdownValue,discountType,couponCode,startDateAndTime,endDateAndTime));
+
+  }
+
   Map<String, dynamic> toJson(email, password){
     final Map<String,String> data = new Map<String,String>();
     data["email"] = email;
@@ -71,6 +83,19 @@ class MenuBusinessrepo extends GetxController implements GetxService{
     data["owner_id"] = Constants.OWNERID_DATA;
     data["latitude"] = getLatitude.toString();
     data["longitude"] = getLongitude.toString();
+    return data;
+  }
+
+  Map<String, dynamic> toJsonForAddCouponPost(String dropdownValue, String discountType, String couponCode, String startDateAndTime, String endDateAndTime){
+    final Map<String,String> data = new Map<String,String>();
+    data["business_id"] = Constants.MENU_BUSINESS_ID;
+    data["owner_id"] = Constants.OWNERID_DATA;
+    data["coupon_code"] = couponCode;
+    data["offer_type"] = dropdownValue;
+    data["rate"] = discountType;
+    data["start_date"] = startDateAndTime;
+    data["end_date"] = endDateAndTime;
+    data["status"] = "active";
     return data;
   }
 
