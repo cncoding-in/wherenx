@@ -18,6 +18,8 @@ class Constants {
 
   static const String GETBUSINESSDETAILS = "businesspartner/business-details?";
   static const String BUSINESSDETAILSSAVE = "businesspartner/business-details";
+  static const String MENUBUSINESSLOCATION = "businesspartner/business-location?";
+  static const String MENUBUSINESSLOCATIONPOST = "businesspartner/business-location";
 
 
 

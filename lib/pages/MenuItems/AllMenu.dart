@@ -1,3 +1,4 @@
+import 'package:businesspartner/controllers/BusinessController/MenuBusinessController.dart';
 import 'package:businesspartner/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,7 +56,7 @@ class _AllMenuState extends State<AllMenu> {
                     flex: 5,
                       child: GestureDetector(
                         onTap: (){
-                          Get.toNamed(RouteHelper.getMenuDetails());
+                          Get.toNamed(RouteHelper.getAllMenu());
                         },
                         child: Card(
                             elevation: 5.0,
@@ -135,7 +136,6 @@ class _AllMenuState extends State<AllMenu> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-
                 Expanded(
                   flex: 5,
                   child: Card(
@@ -171,38 +171,43 @@ class _AllMenuState extends State<AllMenu> {
                   ),
                 ),
                 SizedBox(width: Dimensions.size5),
-                Expanded(
-                  flex: 5,
-                  child: Card(
-                      elevation: 5.0,
-                      shadowColor: Colors.grey,
-                      color: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.size20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Container(
-                              padding: EdgeInsets.all(Dimensions.size5),
-                              child: Row(
-                                children: [
-                                  Image.asset('assets/images/ic_property_location_0.png',width: Dimensions.size55,height: Dimensions.size85,),
-                                  Text(
-                                    "LOCATION",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: Dimensions.size20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                GestureDetector(
+                  onTap: (){
+                    Get.find<MenuBusinessController>().getMenuLocationDetails();
+                  },
+                  child: Expanded(
+                    flex: 5,
+                    child: Card(
+                        elevation: 5.0,
+                        shadowColor: Colors.grey,
+                        color: Colors.grey[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(Dimensions.size20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.all(Dimensions.size5),
+                                child: Row(
+                                  children: [
+                                    Image.asset('assets/images/ic_property_location_0.png',width: Dimensions.size55,height: Dimensions.size85,),
+                                    Text(
+                                      "LOCATION",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: Dimensions.size20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
+                          ],
+                        )
+                    ),
                   ),
                 ),
 

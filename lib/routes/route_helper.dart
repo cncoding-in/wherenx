@@ -17,7 +17,7 @@ import '../pages/Authentication/AppSplashPage.dart';
 import '../pages/MenuItems/AddressPage.dart';
 import '../pages/MenuItems/BusinessHoursPage.dart';
 import '../pages/MenuItems/CouponsPage.dart';
-import '../pages/MenuItems/MediaPage.dart';
+
 import '../pages/MenuItems/OffersPage.dart';
 import '../pages/MenuItems/UploadMedia.dart';
 
@@ -115,11 +115,16 @@ class RouteHelper{
         transition: Transition.zoom
     ),
 
-    GetPage(name: mediaPage, page: (){
-      return MediaPage();
+    GetPage(name: allMenu, page: (){
+      return AllMenu();
     },
         transition: Transition.zoom
     ),
+    // GetPage(name: mediaPage, page: (){
+    //   return MediaPage();
+    // },
+    //     transition: Transition.zoom
+    // ),
 
     GetPage(name: addressPage, page: (){
       return AddressPage();

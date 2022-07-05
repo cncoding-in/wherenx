@@ -48,13 +48,29 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   }
 
 
+  //Location
 
+  Future<Response> getMenuLocationResultFromRepo() async{
+    return await apiClient.get(Constants.MENUBUSINESSLOCATION+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
 
+  Future<Response> getMenuLocationPostResultFromRepo(getLatitude, getLongitude) async{
+    return await apiClient.post(Constants.MENUBUSINESSLOCATIONPOST,toJsonForLocationPost(getLatitude, getLongitude));
+  }
 
   Map<String, dynamic> toJson(email, password){
     final Map<String,String> data = new Map<String,String>();
     data["email"] = email;
     data["password"] = password;
+    return data;
+  }
+
+  Map<String, dynamic> toJsonForLocationPost(getLatitude,getLongitude){
+    final Map<String,String> data = new Map<String,String>();
+    data["business_id"] = Constants.MENU_BUSINESS_ID;
+    data["owner_id"] = Constants.OWNERID_DATA;
+    data["latitude"] = getLatitude.toString();
+    data["longitude"] = getLongitude.toString();
     return data;
   }
 

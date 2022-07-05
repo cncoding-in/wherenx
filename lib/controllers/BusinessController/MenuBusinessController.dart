@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:businesspartner/helper/repository/MenuBusinessRepo.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:businesspartner/models/MenuItems/GetMenuBusinessDetailsModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuLocationModel.dart';
+import 'package:businesspartner/pages/Helper/Loading.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -34,8 +36,16 @@ class MenuBusinessController extends GetxController{
   String? propertyName='';
   String? brief='';
   String? photoPath='';
+
+  // for location
+  String? latValue='null';
+  String? lngValue='null';
+
   late var createBusinessModel = new CreateBusinessModel();
+  late var menuLocationModel = new MenuLocationModel();
   late var menuDeatilsModel = new GetMenuBusinessDetailsModel();
+
+  Loading loading = new Loading();
 
   void getImage(ImageSource imageSource) async {
     final pickedFile = await ImagePicker().pickImage(source: imageSource,imageQuality: 50);
@@ -165,6 +175,77 @@ class MenuBusinessController extends GetxController{
     } else{
       Fluttertoast.showToast(
           msg: "Oops failed!, try again",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+
+    // for location
+
+    Future<void> getMenuLocationDetails()async {
+      loading..showLoading(title: "Please wait...");
+
+      Response response = await menuBusinessrepo.getMenuLocationResultFromRepo() ;
+
+
+      if(response.statusCode==200){
+        menuLocationModel  = MenuLocationModel.fromJson(response.body);
+        print(response.body.toString());
+
+
+        if(menuLocationModel.status=="success"){
+          latValue =  menuLocationModel.dataBusiness?.latitude ?? "null";
+          lngValue =  menuLocationModel.dataBusiness?.longitude ?? "null";
+        }
+      print(latValue.toString()+lngValue.toString());
+        loading.hideLoading();
+        Get.toNamed(RouteHelper.getLocationPage());
+
+      } else{
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Oohps, failed.. Try again !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+
+
+    }
+
+  Future<void> getMenuLocationPostDetails(getLatitude, getLongitude)async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuLocationPostResultFromRepo(getLatitude, getLongitude) ;
+
+
+    if(response.statusCode==200){
+      menuLocationModel  = MenuLocationModel.fromJson(response.body);
+      print(response.body.toString());
+
+      if(menuLocationModel.status=="success"){
+
+        loading.hideLoading();
+        Get.back();
+      }
+
+
+    } else{
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
