@@ -44,6 +44,9 @@ class Constants {
 
   // user login details
 
+
+
+  static String CPEMAIL = "";
   static const String OWNERID = "owner_id";
   static const String NAME = "name";
   static const String EMAIL = "email";

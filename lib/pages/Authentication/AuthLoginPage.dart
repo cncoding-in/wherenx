@@ -1,5 +1,7 @@
 import 'package:businesspartner/controllers/AuthController/auth_controller.dart';
 import 'package:businesspartner/controllers/AuthController/forgot_password_controller.dart';
+import 'package:businesspartner/helper/constants.dart';
+import 'package:businesspartner/pages/Helper/Loading.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -209,23 +211,13 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
   void forgotPassword() {
     if( formKey_email.currentState!.validate()){
       if(emailController.text.isEmail ){
-        print("Email valid and success");
-        print(emailController.text);
 
-       var response = Get.find<ForgotPasswordController>().getForgotPasswordGetResult(emailController.text);
-        print(" //response : ");
-        print(response);
-        Fluttertoast.showToast(
-            msg: response.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.orange,
-            textColor: Colors.white,
-            fontSize: 16.0);
+
+        Constants.CPEMAIL = emailController.text;
+       var response = Get.find<ForgotPasswordController>().getForgotPasswordGetResult(emailController.text,false);
+
       }else{
-        print("Email entered");
-        print(emailController.text);
+
         Fluttertoast.showToast(
             msg: "Enter valid email !",
             toastLength: Toast.LENGTH_SHORT,
@@ -237,11 +229,10 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
       }
 
     }else{
-      print("Email is empty");
-      print(emailController.text);
+
     }
 
-  //  Get.find<ForgotPasswordController>().getForgotPasswordGetResult("mondalbidyut38@gmail.com");
+
 
   }
 }

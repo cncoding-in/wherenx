@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:businesspartner/helper/repository/CreateBusinessRepo.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
+import 'package:businesspartner/pages/Helper/Loading.dart';
 import 'package:businesspartner/routes/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -29,6 +30,7 @@ class CreateBusinessController extends GetxController{
   String? brief='';
   String? photoPath='';
 
+  Loading loading = new Loading();
   void getImage(ImageSource imageSource) async {
     final pickedFile = await ImagePicker().pickImage(source: imageSource,imageQuality: 50);
     if(pickedFile != null){
@@ -81,6 +83,7 @@ class CreateBusinessController extends GetxController{
 
   CreateBusinessController({required this.createBusinessRepo});
   Future<void> getCreateBusinessPostResultData(String type, String name,String brief1 )async {
+    loading.showLoading(title: "Creating your business..");
     Response response = await createBusinessRepo.getCreateBusinessFormRepo(type,name,brief1,compressImagePath.value) ;
     if(response.statusCode==200){
       print(response.body.toString());
@@ -92,6 +95,7 @@ class CreateBusinessController extends GetxController{
         propertyType =  createBusinessModel.dataBusiness?.propertyType;
         brief =  createBusinessModel.dataBusiness?.brief ;
         photoPath =  createBusinessModel.dataBusiness?.logo ;
+        loading.hideLoading();
         Fluttertoast.showToast(
             msg: "Business create successfully !",
             toastLength: Toast.LENGTH_SHORT,
@@ -105,6 +109,7 @@ class CreateBusinessController extends GetxController{
 
       }
       else{
+        loading.hideLoading();
         Fluttertoast.showToast(
             msg: createBusinessModel.message.toString(),
             toastLength: Toast.LENGTH_SHORT,
@@ -119,6 +124,7 @@ class CreateBusinessController extends GetxController{
 
 
     } else{
+      loading.hideLoading();
       Fluttertoast.showToast(
           msg: "Oops failed!, try again",
           toastLength: Toast.LENGTH_SHORT,

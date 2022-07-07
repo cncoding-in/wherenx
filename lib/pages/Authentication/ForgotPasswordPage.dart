@@ -1,6 +1,7 @@
 import 'package:businesspartner/controllers/BusinessController/CreateBusinessController.dart';
 import 'package:businesspartner/helper/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -106,11 +107,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                           fieldStyle: FieldStyle.box,
                           onChanged: (pin) {
                             entredOtp= pin;
-                            print("Completed: " + pin);
+
                           },
                           onCompleted: (pin) {
                             entredOtp= pin;
-                            print("Completed: " + pin);
+
                           },
                         ),
                       ),
@@ -194,7 +195,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 18),
                             ),
-                            onPressed: () async {},
+                            onPressed: () async {
+
+                              Get.find<ForgotPasswordController>().getForgotPasswordGetResult(Constants.CPEMAIL,true);
+
+                            },
                           ),
                         ],
                       ),
@@ -220,7 +225,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         if (_formKey.currentState!.validate()) {
 
           if (passwordController.text == cnfpasswordController.text) {
-            print("Password success");
+
             Get.find<ForgotPasswordController>().getVerifyPasswordGetResult(box.read(Constants.OTPID).toString(),box.read(Constants.OTP).toString(),passwordController.text);
           } else {
             Fluttertoast.showToast(

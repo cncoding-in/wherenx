@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../models/AuthModel/GetUserLoginModel.dart';
+import '../../pages/Helper/Loading.dart';
 
 class AuthController extends GetxController{
 
@@ -16,23 +17,17 @@ class AuthController extends GetxController{
 
   AuthController({required this.authRepo});
 
-
+  Loading loading = new Loading();
   Future<void> getLoginResult(String email, String password)async {
 
 
+    loading.showLoading(title: "Please wait...");
     Response response = await authRepo.getLoginResultFromRepo(email,password) ;
 
 
 
     if(response.statusCode==200){
-
-      print(response.body.toString());
-
       final getUserLoginModel = GetUserLoginModel.fromJson(response.body);
-
-      print(getUserLoginModel.status);
-      print(getUserLoginModel.userData?.name);
-
       if(getUserLoginModel.status=="success"){
         box.write(Constants.NAME, getUserLoginModel.userData?.name);
         box.write(Constants.EMAIL, getUserLoginModel.userData?.email);
@@ -40,15 +35,24 @@ class AuthController extends GetxController{
         box.write(Constants.PROFILEPHOTO, getUserLoginModel.userData?.profilePhoto);
         box.write(Constants.LOGINSTATUS, "true");
 
-
-        print(box.read(Constants.NAME));
+        loading.hideLoading();
+        Constants.OWNERID_DATA = getUserLoginModel.userData!.ownerId.toString();
         Get.offNamed(RouteHelper.getDashboardPage());
       }else{
-
-
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg:getUserLoginModel.message.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       }
 
     } else{
+      loading.hideLoading();
       Fluttertoast.showToast(
           msg: "Oohps..failed, Try again !",
           toastLength: Toast.LENGTH_SHORT,
@@ -58,7 +62,7 @@ class AuthController extends GetxController{
           textColor: Colors.white,
           fontSize: 16.0
       );
-      print("something went wrong");
+
     }
 
 
