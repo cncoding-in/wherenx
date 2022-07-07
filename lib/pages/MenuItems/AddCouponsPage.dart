@@ -119,7 +119,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
 
                       });
                     },
-                    items: <String>['Flat', 'percentage' ]
+                    items: <String>['Flat', 'Percentage' ]
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -297,7 +297,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
 
   void addCoupon() {
 
-    if(discountController.text.isEmpty ){
+    if(discountController.text.isEmpty || couponController.text.isEmpty){
       Fluttertoast.showToast(
           msg: "Some data missing, check correctly !",
           toastLength: Toast.LENGTH_SHORT,

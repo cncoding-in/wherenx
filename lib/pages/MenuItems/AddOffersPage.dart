@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
+import '../../controllers/BusinessController/MenuBusinessController.dart';
 import '../../helper/Dimension.dart';
+import '../../helper/constants.dart';
 import '../../routes/route_helper.dart';
 class AddOffersPage extends StatefulWidget {
   const AddOffersPage({Key? key}) : super(key: key);
@@ -20,26 +23,41 @@ class _AddOffersPageState extends State<AddOffersPage> {
   String offerChoose= "";
   String dropdownValue = 'Flat';
 
+  DateTime startDate =DateTime.now();
+  DateTime endDate =DateTime.now();
+  String startDateAndTime ="";
+  String endDateAndTime="";
+
+  TextEditingController propertyController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  TextEditingController couponController = TextEditingController();
+
+
+
   @override
   void initState() {
-    // TODO: implement initState
-    String date = "";
-    super.initState();
+    setState(() {
+
+      startDateAndTime = DateFormat('yyyy-MM-dd – kk:mm').format(startDate);
+      endDateAndTime =  DateFormat('yyyy-MM-dd – kk:mm').format(endDate);
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
+    propertyController.text = Constants.PROPERTY_NAME.toString();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
-          height: Dimensions.logoHeight,
-          width: Dimensions.logowidth,),
+            height: Dimensions.size200,
+            width: Dimensions.size150,),
         actions: <Widget>[
-          IconButton(
-            icon: Image.asset('assets/images/ic_manprofile.png'),
-            onPressed: () => Get.toNamed(RouteHelper.getAuthLoginPage()),
-          ),
+          // IconButton(
+          //   icon: Image.asset('assets/images/ic_manprofile1.png'),
+          //   onPressed: () => Get.toNamed(RouteHelper.getAuthLoginPage()),
+          // ),
         ],
 
       ),
@@ -79,6 +97,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                       }
                       return null;
                     },
+                    controller: propertyController,
                     decoration:  InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Property',
@@ -96,7 +115,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     value: dropdownValue,
                     icon: const Icon(Icons.arrow_drop_down),
                     elevation: 16,
-                    style: const TextStyle(color: Colors.blueAccent),
+                    style: const TextStyle(color: Colors.black),
                     underline: Container(
                       height: 2,
                       color: Colors.blueAccent,
@@ -107,7 +126,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                         dropdownValue = newValue!;
                       });
                     },
-                    items: <String>['Flat', 'percentage' ]
+                    items: <String>['Flat', 'Percentage' ]
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -123,7 +142,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                   ),
 
                   TextFormField(
-                    //controller: stateController,
+                    controller: discountController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter Percentage !';
@@ -132,7 +151,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     },
                     decoration:  InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Percentage',
+                      labelText: dropdownValue,
 
                     ),
                     // controller: myController,
@@ -159,7 +178,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                     children: [
 
                       Text(
-                        DateTime.now().toString(),
+                        startDateAndTime,
                         // style: TextStyle(fontWeight: FontWeight.bold),
                         style: TextStyle(
                           fontSize: 18,
@@ -177,6 +196,10 @@ class _AddOffersPageState extends State<AddOffersPage> {
                                 date.timeZoneOffset.inHours.toString());
                           }, onConfirm: (date) {
                             print('confirm $date');
+                            setState(() {
+
+                              startDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                            });
                           }, );
                        },
                         ) ,
@@ -199,7 +222,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                   Row(
                     children: [
                       Text(
-                        DateTime.now().toString(),
+                        endDateAndTime,
                         // style: TextStyle(fontWeight: FontWeight.bold),
                         style: TextStyle(
                           fontSize: 18,
@@ -217,6 +240,9 @@ class _AddOffersPageState extends State<AddOffersPage> {
                                 date.timeZoneOffset.inHours.toString());
                           }, onConfirm: (date) {
                             print('confirm $date');
+                            setState(() {
+                              endDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                            });
                           }, );
                       },
                       ) ,
@@ -235,6 +261,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                           onPressed: () {
 
                            // addAddress();
+                            addOffer();
 
                           },
                           child: Text('SAVE'),
@@ -253,5 +280,24 @@ class _AddOffersPageState extends State<AddOffersPage> {
       ),
 
     );
+  }
+
+  void addOffer() {
+    if(discountController.text.isEmpty ){
+      Fluttertoast.showToast(
+          msg: "Some data missing, check correctly !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
+    }else{
+      Get.find<MenuBusinessController>().getMenuAddOfferResult(dropdownValue,discountController.text
+          ,startDateAndTime,endDateAndTime);
+
+    }
   }
 }

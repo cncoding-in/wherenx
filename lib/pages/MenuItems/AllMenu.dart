@@ -27,15 +27,9 @@ class _AllMenuState extends State<AllMenu> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
-          height: Dimensions.logoHeight,
-          width: Dimensions.logowidth,),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Image.asset('assets/images/ic_manprofile.png'),
-        //     onPressed: () => Get.toNamed(RouteHelper.getAuthLoginPage()),
-        //   ),
-        // ],
-
+          height: Dimensions.size200,
+          width: Dimensions.size150,
+         ),
       ),
 
 
@@ -47,16 +41,16 @@ class _AllMenuState extends State<AllMenu> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-
             Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
+                    Flexible(
                     flex: 5,
                       child: GestureDetector(
                         onTap: (){
-                          Get.toNamed(RouteHelper.getAllMenu());
+                          Get.find<MenuBusinessController>().selectedImagePath.value="";
+                          Get.find<MenuBusinessController>().getMenuBusinessDetailsResult();
                         },
                         child: Card(
                             elevation: 5.0,
@@ -92,12 +86,13 @@ class _AllMenuState extends State<AllMenu> {
                       ),
                   ),
                     SizedBox(width: Dimensions.size5),
-                    GestureDetector(
-                      onTap: (){
-                        Get.find<MenuBusinessController>().getMenuADDRESSDetails();
-                      },
-                      child: Expanded(
-                        flex: 5,
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 5,
+                      child: GestureDetector(
+                        onTap: (){
+                          Get.find<MenuBusinessController>().getMenuADDRESSDetails();
+                        },
                         child: Card(
                             elevation: 5.0,
                             shadowColor: Colors.grey,
@@ -131,57 +126,62 @@ class _AllMenuState extends State<AllMenu> {
                         ),
                       ),
                     ),
-
                 ],
               ),
 
             SizedBox(height: Dimensions.size10),
-
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
+                Flexible(
                   flex: 5,
-                  child: Card(
-                      elevation: 5.0,
-                      shadowColor: Colors.grey,
-                      color: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.size20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Container(
-                              padding: EdgeInsets.all(Dimensions.size5),
-                              child: Row(
-                                children: [
-                                  Image.asset('assets/images/ic_property_media_0.png',width: Dimensions.size55,height: Dimensions.size85,),
-                                  Text(
-                                    "MEDIA",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: Dimensions.size20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
+                  child: GestureDetector(
+                      onTap: (){
+                        Get.find<MenuBusinessController>().getMenuMediaDetails(true);
+                      },
+                    child: Card(
+                        elevation: 5.0,
+                        shadowColor: Colors.grey,
+                        color: Colors.grey[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(Dimensions.size20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Container(
+                                padding: EdgeInsets.all(Dimensions.size5),
+                                child: Row(
+                                  children: [
+                                    Image.asset('assets/images/ic_property_media_0.png',width: Dimensions.size55,height: Dimensions.size85,),
+                                    Text(
+                                      "MEDIA",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: Dimensions.size20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
+                          ],
+                        )
+                    ),
                   ),
                 ),
                 SizedBox(width: Dimensions.size5),
-                GestureDetector(
-                  onTap: (){
-                    Get.find<MenuBusinessController>().getMenuLocationDetails();
-                  },
-                  child: Expanded(
-                    flex: 5,
+
+                Flexible(
+                  fit: FlexFit.loose,
+                  flex: 5,
+                  child: GestureDetector(
+                    onTap: (){
+                      Get.find<MenuBusinessController>().getMenuLocationDetails();
+                    },
                     child: Card(
                         elevation: 5.0,
                         shadowColor: Colors.grey,
@@ -216,6 +216,7 @@ class _AllMenuState extends State<AllMenu> {
                   ),
                 ),
 
+
               ],
             ),
 
@@ -226,7 +227,8 @@ class _AllMenuState extends State<AllMenu> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                Expanded(
+                Flexible(
+                  fit: FlexFit.tight,
                   flex: 5,
                   child: Card(
                       elevation: 5.0,
@@ -261,40 +263,48 @@ class _AllMenuState extends State<AllMenu> {
                   ),
                 ),
                 SizedBox(width: Dimensions.size5),
-                Expanded(
-                  flex: 5,
-                  child: Card(
-                      elevation: 5.0,
-                      shadowColor: Colors.grey,
-                      color: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.size20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Container(
-                              padding: EdgeInsets.all(Dimensions.size5),
-                              child: Row(
-                                children: [
-                                  Image.asset('assets/images/ic_property_offers_0.png',width: Dimensions.size55,height: Dimensions.size85,),
-                                  Text(
-                                    "OFFERS",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: Dimensions.size20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                  ),
+        Flexible(
+          fit: FlexFit.loose,
+          flex: 5,
+          child: GestureDetector(
+            onTap: (){
+              Get.find<MenuBusinessController>().getMenuOfferDetails(true);
+            },
+            child: Card(
+                elevation: 5.0,
+                shadowColor: Colors.grey,
+                color: Colors.grey[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.size20),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.all(Dimensions.size5),
+                        child: Row(
+                          children: [
+                            Image.asset('assets/images/ic_property_offers_0.png',width: Dimensions.size55,height: Dimensions.size85,),
+                            Text(
+                              "OFFERS",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: Dimensions.size20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            ),
+          ),
+        ),
+
+
 
               ],
             ),
@@ -306,83 +316,97 @@ class _AllMenuState extends State<AllMenu> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
 
-                GestureDetector(
-                  onTap: (){
-                    Get.find<MenuBusinessController>().getMenuCouponDetails();
-                  },
-                  child: Expanded(
+
+                  Flexible(
                     flex: 5,
-                    child: Card(
-                        elevation: 5.0,
-                        shadowColor: Colors.grey,
-                        color: Colors.grey[300],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(Dimensions.size20),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(
-                              child: Container(
-                                padding: EdgeInsets.all(Dimensions.size5),
-                                child: Row(
-                                  children: [
-                                    Image.asset('assets/images/ic_property_coupons_0.png',width: Dimensions.size55,height: Dimensions.size85,),
-                                    Text(
-                                      "COUPONS",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: Dimensions.size20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                    child: GestureDetector(
+                        onTap: (){
+                          Get.find<MenuBusinessController>().getMenuCouponDetails();
+                        },
+                      child: Card(
+                          elevation: 5.0,
+                          shadowColor: Colors.grey,
+                          color: Colors.grey[300],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(Dimensions.size20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.all(Dimensions.size5),
+                                  child: Row(
+                                    children: [
+                                      Image.asset('assets/images/ic_property_coupons_0.png',width: Dimensions.size55,height: Dimensions.size85,),
+                                      Text(
+                                        "COUPONS",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: Dimensions.size20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )
+                            ],
+                          )
+                      ),
                     ),
                   ),
-                ),
+
                 SizedBox(width: Dimensions.size5),
-                Expanded(
-                  flex: 5,
-                  child: Card(
-                      elevation: 5.0,
-                      shadowColor: Colors.grey,
-                      color: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.size20),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Container(
-                              //padding: EdgeInsets.all(Dimensions.size5),
-                              child: Row(
-                                children: [
-                                  // Image.asset('assets/images/ic_property_details_0.png',width: 85,height: 85,),
-                                  // Text(
-                                  //   "CLUTCH BAR",
-                                  //   style: TextStyle(
-                                  //       color: Colors.black,
-                                  //       fontSize: Dimensions.size20,
-                                  //       fontWeight: FontWeight.bold),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                  ),
+                  Flexible(
+          fit: FlexFit.loose,
+          flex: 5,
+          child: GestureDetector(
+            onTap: (){
+              Get.find<MenuBusinessController>().getMenuCouponDetails();
+            },
+            child: Card(
+                elevation: 5.0,
+                shadowColor: Colors.grey,
+                color: Colors.grey[300],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.size20),
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Container(
+                        //padding: EdgeInsets.all(Dimensions.size5),
+                        child: Row(
+                          children: [
+                            // Image.asset('assets/images/ic_property_details_0.png',width: 85,height: 85,),
+                            // Text(
+                            //   "CLUTCH BAR",
+                            //   style: TextStyle(
+                            //       color: Colors.black,
+                            //       fontSize: Dimensions.size20,
+                            //       fontWeight: FontWeight.bold),
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+            ),
+          ),
+        ),
+
+
 
               ],
             ),
+
+            SizedBox(height: Dimensions.size10),
+
+
           ],
         ),
       ),

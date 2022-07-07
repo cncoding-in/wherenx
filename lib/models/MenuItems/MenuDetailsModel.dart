@@ -1,11 +1,11 @@
-class GetMenuBusinessDetailsModel {
+class MenuDetailsModel {
   DataBusiness? dataBusiness;
   String? status;
   String? message;
 
-  GetMenuBusinessDetailsModel({this.dataBusiness, this.status, this.message});
+  MenuDetailsModel({this.dataBusiness, this.status, this.message});
 
-  GetMenuBusinessDetailsModel.fromJson(Map<String, dynamic> json) {
+  MenuDetailsModel.fromJson(Map<String, dynamic> json) {
     dataBusiness = json['data_business'] != null
         ? new DataBusiness.fromJson(json['data_business'])
         : null;
@@ -27,14 +27,16 @@ class GetMenuBusinessDetailsModel {
 class DataBusiness {
   int? businessId;
   String? businessName;
+  String? businessType;
   String? logo;
-  Null? status;
-  Null? address;
+  String? status;
+  String? address;
   String? description;
 
   DataBusiness(
       {this.businessId,
         this.businessName,
+        this.businessType,
         this.logo,
         this.status,
         this.address,
@@ -43,6 +45,7 @@ class DataBusiness {
   DataBusiness.fromJson(Map<String, dynamic> json) {
     businessId = json['business_id'];
     businessName = json['business_name'];
+    businessType = json['business_type'];
     logo = json['logo'];
     status = json['status'];
     address = json['address'];
@@ -53,6 +56,7 @@ class DataBusiness {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['business_id'] = this.businessId;
     data['business_name'] = this.businessName;
+    data['business_type'] = this.businessType;
     data['logo'] = this.logo;
     data['status'] = this.status;
     data['address'] = this.address;

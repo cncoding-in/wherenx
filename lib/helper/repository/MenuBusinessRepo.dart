@@ -28,7 +28,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   Future<Response> getBusinessDetailsUpdateFormRepo(String type, String name,String brief1,String logoPath) async{
 
     bool path = false;
-    print(box.read(Constants.OWNERID));
+
     bool directoryExists = await Directory(logoPath).exists();
     bool fileExists = await File(logoPath).exists();
     if(directoryExists || fileExists) {
@@ -44,6 +44,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
       'logo': path==true?MultipartFile(logoPath, filename: 'logo.png'):"no photo",
 
     });
+    print(form.toString());
     return await apiClient.postDataWithFile(Constants.BUSINESSDETAILSSAVE,form );
   }
 
@@ -83,6 +84,47 @@ class MenuBusinessrepo extends GetxController implements GetxService{
 
   }
 
+
+  // MEDIA
+
+  Future<Response> getMenuMediaResultFromRepo() async{
+    return await apiClient.getData(Constants.MENUMEDIA+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
+
+  Future<Response> getMenuMediaDeleteResultFromRepo() async{
+    return await apiClient.deleteData(Constants.MENUDELETEMEDIA+Constants.MEDIAID);
+  }
+
+
+  Future<Response> getMenuMediaUploadResultFromRepo(String imagePath) async{
+    bool path = false;
+    bool directoryExists = await Directory(imagePath).exists();
+    bool fileExists = await File(imagePath).exists();
+    if(directoryExists || fileExists) {
+      // do stuff
+      path = true;
+    }
+    final form = FormData({
+      'business_id':Constants.MENU_BUSINESS_ID,
+      'owner_id': Constants.OWNERID_DATA,
+      'image': path==true?MultipartFile(imagePath, filename: 'logo.png'):"no photo",
+
+    });
+    return await apiClient.postDataWithFile(Constants.MENUUPLOADMEDIA,form );
+  }
+
+
+  // OFFER
+
+  Future<Response> getMenuOfferResultFromRepo() async{
+    return await apiClient.getData(Constants.MENUOFFER+"owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
+
+  Future<Response> getMenuAddOfferResultFromRepo(String dropdownValue,String discountamount, String startDateAndTime, String endDateAndTime) async{
+    return await apiClient.postData(Constants.MENUADDOFFER, toJsonForAddOfferPost(dropdownValue,discountamount,startDateAndTime,endDateAndTime));
+
+  }
+
   Map<String, dynamic> toJson(email, password){
     final Map<String,String> data = new Map<String,String>();
     data["email"] = email;
@@ -106,6 +148,18 @@ class MenuBusinessrepo extends GetxController implements GetxService{
     data["coupon_code"] = couponCode;
     data["offer_type"] = dropdownValue;
     data["rate"] = discountType;
+    data["start_date"] = startDateAndTime;
+    data["end_date"] = endDateAndTime;
+    data["status"] = "active";
+    return data;
+  }
+
+  Map<String, dynamic> toJsonForAddOfferPost(String dropdownValue,String discountamount, String startDateAndTime, String endDateAndTime){
+    final Map<String,String> data = new Map<String,String>();
+    data["business_id"] = Constants.MENU_BUSINESS_ID;
+    data["owner_id"] = Constants.OWNERID_DATA;
+    data["offer_type"] = dropdownValue;
+    data["rate"] = discountamount;
     data["start_date"] = startDateAndTime;
     data["end_date"] = endDateAndTime;
     data["status"] = "active";

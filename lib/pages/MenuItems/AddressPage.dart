@@ -28,11 +28,11 @@ class _AddressPageState extends State<AddressPage> {
 
   @override
   void initState() {
-    addressController.text = (Constants.AADDRESS ?? "")!;
-    cityController.text = (Constants.ACITY ?? "")!;
-    stateController.text = (Constants.ASTATE ?? "")!;
-    countryController.text = (Constants.ACOUNTRY ?? "")!;
-    zipController.text = (Constants.APINCODE ?? "")!;
+    addressController.text = Constants.AADDRESS ;
+    cityController.text = Constants.ACITY ;
+    stateController.text = Constants.ASTATE;
+    countryController.text = Constants.ACOUNTRY;
+    zipController.text = Constants.APINCODE ;
 
   }
 

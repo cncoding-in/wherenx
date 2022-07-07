@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:businesspartner/controllers/BusinessController/MenuBusinessController.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
@@ -146,6 +148,20 @@ class _UploadmediaState extends State<Uploadmedia> {
                       onPressed: () {
 
 
+                        Get.find<MediaPageController>()
+                            .compressImagePath.value==""?
+                        Fluttertoast.showToast(
+                            msg: "Kindly select a image.. !",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.orange,
+                            textColor: Colors.white,
+                            fontSize: 16.0
+                        )  :     Get.find<MenuBusinessController>()
+                            .getMenuMediaUploadeDetails(Get.find<MediaPageController>()
+                            .compressImagePath.value);
+
                         // loginNow();
                       },
                       child: Text('UPLOD IMAGE'),
@@ -162,4 +178,6 @@ class _UploadmediaState extends State<Uploadmedia> {
       ),
     );
   }
+
+
 }

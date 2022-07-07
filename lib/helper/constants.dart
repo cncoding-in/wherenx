@@ -27,6 +27,12 @@ class Constants {
   static const String MENUGETADDRESS = "businesspartner/business-address?";
   static const String MENUADDADDRESS = "businesspartner/business-address";
 
+  static const String MENUMEDIA = "businesspartner/add-media?";
+  static const String MENUUPLOADMEDIA = "businesspartner/add-media";
+  static const String MENUDELETEMEDIA = "businesspartner/delete-media?image_id=";
+
+  static const String MENUOFFER = "businesspartner/business-offers?";
+  static const String MENUADDOFFER = "businesspartner/business-offers";
 
 
   //authentication details
@@ -54,12 +60,15 @@ class Constants {
   //Coupon
   static  String COUPONID = "";
 
+  //Media
+  static  String MEDIAID = "";
+
   //Address
-  static  String? ASTATE = "";
-  static  String? ACITY = "";
-  static  String? ACOUNTRY = "";
-  static  String? AADDRESS  = "";
-  static  String? APINCODE  = "";
+  static  String ASTATE = "";
+  static  String ACITY = "";
+  static  String ACOUNTRY = "";
+  static  String AADDRESS  = "";
+  static  String APINCODE  = "";
 
 // For app help
 

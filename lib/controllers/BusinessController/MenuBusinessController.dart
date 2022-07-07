@@ -4,11 +4,16 @@ import 'dart:io';
 
 import 'package:businesspartner/helper/repository/MenuBusinessRepo.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
-import 'package:businesspartner/models/MenuItems/GetMenuBusinessDetailsModel.dart';
+
 import 'package:businesspartner/models/MenuItems/MenuAddressModel.dart';
 import 'package:businesspartner/models/MenuItems/MenuCouponGetModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuDetailsModel.dart';
 import 'package:businesspartner/models/MenuItems/MenuLocationModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuMediaGetModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuOfferModel.dart';
+import 'package:businesspartner/models/MenuItems/MenuUploadMediaModel.dart';
 import 'package:businesspartner/pages/Helper/Loading.dart';
+import 'package:businesspartner/pages/MenuItems/BusinessDetails.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -49,12 +54,22 @@ class MenuBusinessController extends GetxController{
 
   int length  =0;
 
+  // media
+
+  int mediaLength  =0;
+
+  // Offer
+
+  int offerLength  =0;
 
   late var createBusinessModel = new CreateBusinessModel();
   late var menuLocationModel = new MenuLocationModel();
   late var menuCouponModel = new MenuCouponModel();
   late var menuAddressModel = new MenuAddressModel();
-  late var menuDeatilsModel = new GetMenuBusinessDetailsModel();
+  late var menuMediaGetModel = new MenuMediaGetModel();
+  late var menuUploadMediaModel = new MenuUploadMediaModel();
+
+  late var menuOfferModel = new MenuOfferModel();
 
   Loading loading = new Loading();
 
@@ -105,33 +120,30 @@ class MenuBusinessController extends GetxController{
   }
 
   Future<void> getMenuBusinessDetailsResult()async {
+    loading.showLoading(title: "Please wait...");
     Response response = await menuBusinessrepo.getMenuDetailsResultFromRepo() ;
 
 
     if(response.statusCode==200){
-      createBusinessModel  = CreateBusinessModel.fromJson(response.body);
+      MenuDetailsModel menuDetailsModel  = MenuDetailsModel.fromJson(response.body);
       print(response.body.toString());
-      propertyName =  createBusinessModel.dataBusiness?.propertyName;
-      propertyType =  createBusinessModel.dataBusiness?.propertyType;
-      brief =  createBusinessModel.dataBusiness?.brief ;
-      photoPath =  createBusinessModel.dataBusiness?.logo ;
-      update();
-      update();
-      print(createBusinessModel.status);
+      propertyName =  menuDetailsModel.dataBusiness?.businessName;
+      propertyType =  menuDetailsModel.dataBusiness?.businessType;
+      brief =  menuDetailsModel.dataBusiness?.description ;
+      photoPath =  menuDetailsModel.dataBusiness?.logo ;
 
-      if(createBusinessModel.status=="success"){
-        Fluttertoast.showToast(
-            msg: "Data fetched successfully!",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+      print(menuDetailsModel.status);
+
+      if(menuDetailsModel.status=="success"){
+
+        loading.hideLoading();
+        print(propertyType.toString()+propertyName.toString()+brief.toString());
+        //Get.toNamed(RouteHelper.getMenuDetailsPage());
+        Get.to(BusinessDetails());
       }else{
+        loading.hideLoading();
         Fluttertoast.showToast(
-            msg: "No record found !",
+            msg: menuDetailsModel.message.toString(),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -142,26 +154,33 @@ class MenuBusinessController extends GetxController{
       }
 
     } else{
-
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops failed, try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
     }
 
 
   }
 
   Future<void> getBusinessDetailsPostResultData(String type, String name,String brief1 )async {
+    loading.showLoading(title: "Please wait...");
+
     Response response = await menuBusinessrepo.getBusinessDetailsUpdateFormRepo(type,name,brief1,compressImagePath.value) ;
     if(response.statusCode==200){
       print(response.body.toString());
-      menuDeatilsModel = GetMenuBusinessDetailsModel.fromJson(response.body);
+      MenuDetailsModel menuDetailsModel  = MenuDetailsModel.fromJson(response.body);
 
-      if(menuDeatilsModel.status=="success"){
-        propertyName =  createBusinessModel.dataBusiness?.propertyName;
-        propertyType =  createBusinessModel.dataBusiness?.propertyType;
-        brief =  createBusinessModel.dataBusiness?.brief ;
-        photoPath =  createBusinessModel.dataBusiness?.logo ;
-        update();
+      if(menuDetailsModel.status=="success"){
+        loading.hideLoading();
         Fluttertoast.showToast(
-            msg: "Business create successfully !",
+            msg: "Details Updated successfully !",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -169,11 +188,12 @@ class MenuBusinessController extends GetxController{
             textColor: Colors.white,
             fontSize: 16.0
         );
-        Get.offNamed(RouteHelper.getDashboardPage());
+        Get.back();
       }
       else{
+        loading.hideLoading();
         Fluttertoast.showToast(
-            msg: createBusinessModel.message.toString(),
+            msg: menuDetailsModel.message.toString(),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -184,6 +204,7 @@ class MenuBusinessController extends GetxController{
       }
 
     } else{
+      loading.hideLoading();
       Fluttertoast.showToast(
           msg: "Oops failed!, try again",
           toastLength: Toast.LENGTH_SHORT,
@@ -360,11 +381,11 @@ class MenuBusinessController extends GetxController{
 
       print(response.body.toString());
       if(menuAddressModel.status=="success"){
-        Constants.ASTATE =menuAddressModel.dataBusiness?.state;
-        Constants.ACITY =menuAddressModel.dataBusiness?.city;
-        Constants.ACOUNTRY =menuAddressModel.dataBusiness?.country;
-        Constants.AADDRESS =menuAddressModel.dataBusiness?.address;
-        Constants.APINCODE =menuAddressModel.dataBusiness?.state;
+        Constants.ASTATE =menuAddressModel.dataBusiness!.state.toString();
+        Constants.ACITY =menuAddressModel.dataBusiness!.city.toString();
+        Constants.ACOUNTRY =menuAddressModel.dataBusiness!.country.toString();
+        Constants.AADDRESS =menuAddressModel.dataBusiness!.address.toString();
+        Constants.APINCODE =menuAddressModel.dataBusiness!.state.toString();
       }
 
       loading.hideLoading();
@@ -400,11 +421,11 @@ class MenuBusinessController extends GetxController{
 
       print(menuAddressModel.dataBusiness?.state);
       if(menuAddressModel.status=="success"){
-        Constants.ASTATE =menuAddressModel.dataBusiness?.state;
-        Constants.ACITY =menuAddressModel.dataBusiness?.city;
-        Constants.ACOUNTRY =menuAddressModel.dataBusiness?.country;
-        Constants.AADDRESS =menuAddressModel.dataBusiness?.address;
-        Constants.APINCODE =menuAddressModel.dataBusiness?.state;
+        Constants.ASTATE =menuAddressModel.dataBusiness!.state.toString();
+        Constants.ACITY =menuAddressModel.dataBusiness!.city.toString();
+        Constants.ACOUNTRY =menuAddressModel.dataBusiness!.country.toString();
+        Constants.AADDRESS =menuAddressModel.dataBusiness!.address.toString();
+        Constants.APINCODE =menuAddressModel.dataBusiness!.state.toString();
       }
 
       loading.hideLoading();
@@ -428,4 +449,219 @@ class MenuBusinessController extends GetxController{
 
   }
 
+
+  // for Media
+
+  Future<void> getMenuMediaDetails(bool fromMenu)async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuMediaResultFromRepo() ;
+
+    print(response.body.toString());
+    if(response.statusCode==200){
+
+      menuMediaGetModel  = MenuMediaGetModel.fromJson(response.body);
+      mediaLength =  (menuMediaGetModel.dataBusiness?.length==null? 0
+          : menuMediaGetModel.dataBusiness?.length)!;
+      print(response.body.toString());
+      if(menuMediaGetModel.status=="success"){
+
+      }
+
+      loading.hideLoading();
+      fromMenu==true?Get.toNamed(RouteHelper.getMediaPage()):Get.offNamed(RouteHelper.getMediaPage());
+
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+  Future<void> getMenuMediaDeleteDetails()async {
+    loading..showLoading(title: "Deleting media...");
+
+    Response response = await menuBusinessrepo.getMenuMediaDeleteResultFromRepo() ;
+
+    print(response.body);
+    if(response.statusCode==200){
+      if(menuMediaGetModel.status=="success"){
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Deleted successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      } else {
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Oohps, failed.. Try again !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      }
+
+
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+  Future<void> getMenuMediaUploadeDetails(String imagePath)async {
+    loading..showLoading(title: "Uploading media...");
+
+    Response response = await menuBusinessrepo.getMenuMediaUploadResultFromRepo(imagePath) ;
+    menuUploadMediaModel  = MenuUploadMediaModel.fromJson(response.body);
+    print(response.body);
+    if(response.statusCode==200){
+      if(menuUploadMediaModel.status=="success"){
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Uploaded successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        getMenuMediaDetails(false);
+      } else {
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Oops, failed.. Try again !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      }
+
+
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+
+  // for Offer
+
+  Future<void> getMenuOfferDetails(bool fromMenu)async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuOfferResultFromRepo() ;
+
+    print(response.body.toString());
+    if(response.statusCode==200){
+
+      menuOfferModel  = MenuOfferModel.fromJson(response.body);
+      offerLength =  (menuOfferModel.offerData?.length==null? 0
+          : menuOfferModel.offerData?.length)!;
+      print(response.body.toString());
+      if(menuOfferModel.status=="success"){
+
+      }
+      loading.hideLoading();
+      fromMenu==true?Get.toNamed(RouteHelper.getOfferPage()):Get.offNamed(RouteHelper.getOfferPage());
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+  Future<void> getMenuAddOfferResult(String dropdownValue,String discountamount, String startDateAndTime, String endDateAndTime)async {
+    loading..showLoading(title: "Please wait...");
+
+    Response response = await menuBusinessrepo.getMenuAddOfferResultFromRepo(dropdownValue,discountamount,startDateAndTime,endDateAndTime) ;
+
+
+    if(response.statusCode==200){
+
+
+      print(response.body.toString());
+      if(menuLocationModel.status=="success"){
+
+      }
+
+      loading.hideLoading();
+      Get.toNamed(RouteHelper.getAllMenu());
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
 }

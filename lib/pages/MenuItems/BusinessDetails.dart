@@ -11,16 +11,16 @@ import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../helper/constants.dart';
-class MenuDetails extends StatefulWidget {
-  const MenuDetails({Key? key}) : super(key: key);
+class BusinessDetails extends StatefulWidget {
+  const BusinessDetails({Key? key}) : super(key: key);
 
   @override
-  State<MenuDetails> createState() => _MenuDetailsState();
+  State<BusinessDetails> createState() => _BusinessDetailsState();
 
 }
 
 
-class _MenuDetailsState extends State<MenuDetails> {
+class _BusinessDetailsState extends State<BusinessDetails> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController typeController = TextEditingController();
@@ -31,28 +31,14 @@ class _MenuDetailsState extends State<MenuDetails> {
   @override
   void initState() {
     super.initState();
-    Get.find<CreateBusinessController>().clearImage();
-
-
-    // typeController.text =
-    // Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness..toString()==null?
-    // "":
-
-    // nameController.text = Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness!.businessName.toString()!;
-    //
-    // briefController.text =  Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness!.description.toString()!;
+    nameController.text = Get.find<MenuBusinessController>().propertyName.toString();
+    typeController.text = Get.find<MenuBusinessController>().propertyType.toString();
+    briefController.text = Get.find<MenuBusinessController>().brief.toString();
+    photoUrl = Get.find<MenuBusinessController>().photoPath.toString();
   }
 
   @override
   Widget build(BuildContext context) {
-    Get.find<MenuBusinessController>().getMenuBusinessDetailsResult();
-
-   // print(Get.find<MenuBusinessController>().createBusinessModel.dataBusiness!.propertyType.toString());
-    // print(box.read(Constants.OWNERID));
-    // int owner_id = box.read(Constants.OWNERID);
-    // print("owner id : "+owner_id.toString());
-
-    nameController.text = Get.find<MenuBusinessController>().menuDeatilsModel.dataBusiness?.businessName.toString()??"";
 
     return Scaffold(
       appBar: AppBar(
@@ -64,17 +50,8 @@ class _MenuDetailsState extends State<MenuDetails> {
       ),
 
       body:
-      GetBuilder<MenuBusinessController>(builder: (business) {
 
-
-    business.propertyType != null ? typeController.text = business.propertyType! : "";
-    business.propertyName != null ? nameController.text = business.propertyName! : "";
-    business.brief != null ? briefController.text = business.brief! : "";
-    business.photoPath != null ? photoUrl = business.photoPath! : "";
-
-
-
-     return Container(
+     Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
@@ -103,22 +80,28 @@ class _MenuDetailsState extends State<MenuDetails> {
                   Center(
                     child: Stack(
                       children: [
-                        Obx(() => Get.find<MenuBusinessController>().selectedImagePath==""?
+
+                        Obx(() => Get.find<MenuBusinessController>().selectedImagePath.value.isEmpty?
                         CircleAvatar(
-                          radius: 80,
-                          backgroundColor: Colors.white,
-                          backgroundImage: NetworkImage(
-                              Get.find<MenuBusinessController>().createBusinessModel.dataBusiness!.logo.toString()
-                            ,
-                          ),
+                            radius: 80,
+                            backgroundColor: Colors.white,
+                            backgroundImage: NetworkImage(
+                              photoUrl
+                              ,
+                            )
                         )
-                            :
-                        CircleAvatar(
-                          radius: 80,
-                          backgroundColor: Colors.white,
-                          backgroundImage: FileImage(File(Get.find<MenuBusinessController>().selectedImagePath.value)),
-                        )
+                        :
+                            CircleAvatar(
+                            radius: 80,
+                            backgroundColor: Colors.white,
+                        backgroundImage: FileImage(File(Get.find<MenuBusinessController>().selectedImagePath.value)),
+                             )
                         ),
+
+
+
+
+
 
 
                         GestureDetector(
@@ -233,9 +216,9 @@ class _MenuDetailsState extends State<MenuDetails> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
-                            createBusiness();
+                            saveBusiness();
                           },
-                          child: Text('Save'),
+                          child: Text('SAVE'),
                           style: ElevatedButton.styleFrom(
                             minimumSize:
                             Size(MediaQuery.of(context).size.width, 50),
@@ -250,14 +233,12 @@ class _MenuDetailsState extends State<MenuDetails> {
           ),
         ),
 
-      );
-      }),
-    );
+      ),
 
+    );
   }
 
-
-  void createBusiness() {
+  void saveBusiness() {
 
     if(typeController.text.isEmpty || nameController.text.isEmpty || briefController.text.isEmpty){
       Fluttertoast.showToast(
@@ -275,6 +256,8 @@ class _MenuDetailsState extends State<MenuDetails> {
       print(nameController.text);
       print(typeController.text);
       print(briefController.text);
+
+
 
       Get.find<MenuBusinessController>().getBusinessDetailsPostResultData(typeController.text,nameController.text,briefController.text);
     }

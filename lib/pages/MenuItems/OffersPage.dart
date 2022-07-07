@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:rolling_switch/rolling_switch.dart';
 import 'package:vector_math/vector_math.dart' as v_math;
 import 'package:dotted_line/dotted_line.dart';
+import '../../controllers/BusinessController/MenuBusinessController.dart';
 import '../../helper/Dimension.dart';
+import '../../routes/route_helper.dart';
 class OfferPage extends StatelessWidget {
   const OfferPage({Key? key}) : super(key: key);
 
@@ -20,149 +25,116 @@ class OfferPage extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.symmetric(horizontal: Dimensions.size5,vertical: Dimensions.size5),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-
-              Center(
-                child: Text(
-                  "OFFERS",
-                  // style: TextStyle(fontWeight: FontWeight.bold),
-                  style: TextStyle(
-                    fontSize: Dimensions.size25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
+        child:
+    GetBuilder<MenuBusinessController>(builder: (offer){
+         return  offer.offerLength==0?
+         Padding(
+         padding: EdgeInsets.all(Dimensions.size10),
+        child: const Center(
+        child: Text(
+        "No offer added feel free to add them",
+        style: TextStyle(
+        color: Colors.black,
+        fontSize: 25
+        ),
+        ),
+        ),
+        )
+        :
+        ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount:  offer.offerLength,
+          itemBuilder: (context,index){
+            return ClipPath(
+              clipper: DolDurmaClipper(right: Dimensions.screenWidth-Dimensions.size132, holeRadius: Dimensions.size10),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(Dimensions.size10),
                   ),
+                  color: Colors.lightBlueAccent,
                 ),
-              ),
-
-              ClipPath(
-                clipper: DolDurmaClipper(right: Dimensions.screenWidth-Dimensions.size120, holeRadius: Dimensions.size10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(Dimensions.size10),
-                    ),
-                    color: Colors.lightBlueAccent,
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  height: 150,
-                  child:  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "100%",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: Dimensions.size35,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-
-                                ],
-                              ),
-
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "OFF",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: Dimensions.size20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-
-                                ],
-                              ),
-                            ],
-                          )),
-
-
-                      SizedBox(width: Dimensions.size1,
-
-                        child: Container(
-                          color: Colors.white,),
-                      ),
-
-                      Expanded(
-                          flex: 7,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(Dimensions.size10),
-                                  bottomRight: Radius.circular(Dimensions.size10)),
-                              color: Colors.lightBlueAccent[100],),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                child:  Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  flex: 7,
-                                  child: Container(
+                                Text(
+                                  offer.menuOfferModel.offerData![index].rate.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Dimensions.size35,
+                                      fontWeight: FontWeight.bold),
+                                ),
 
-                                      padding: EdgeInsets.only(left: Dimensions.size20),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
+                              ],
+                            ),
 
-                                          Container(
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "OFF",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Dimensions.size20,
+                                      fontWeight: FontWeight.bold),
+                                ),
 
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  "Coupon Code",
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: Dimensions.size10,
-                                                      fontWeight: FontWeight.bold),
-                                                ),
+                              ],
+                            ),
+                          ],
+                        )),
 
-                                              ],
-                                            ),
-                                          ),
 
-                                          Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                    SizedBox(width: Dimensions.size1,
+
+                      child: Container(
+                        color: Colors.white,),
+                    ),
+
+                    Expanded(
+                        flex: 7,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(Dimensions.size10),
+                                bottomRight: Radius.circular(Dimensions.size10)),
+                            color: Colors.lightBlueAccent[100],),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 7,
+                                child: Container(
+
+                                    padding: EdgeInsets.only(left: Dimensions.size20),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+
+                                        Container(
+
+                                          child: Row(
                                             children: [
                                               Text(
-                                                "BFDAY10",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: Dimensions.size35,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-
-                                            ],
-                                          ),
-
-                                          SizedBox(height: Dimensions.size20),
-
-                                          Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Valid Till - July 31 2022 8pm",
+                                                "",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     color: Colors.black,
@@ -172,87 +144,125 @@ class OfferPage extends StatelessWidget {
 
                                             ],
                                           ),
-                                        ],
-                                      )),
+                                        ),
 
-                                ),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              offer.menuOfferModel.offerData![index].offerType.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black87,
+                                                  fontSize: Dimensions.size35,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+
+                                          ],
+                                        ),
+
+                                        SizedBox(height: Dimensions.size20),
+
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Valid Till - "+ offer.menuOfferModel.offerData![index].endDate.toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: Dimensions.size10,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+
+                              ),
 
 
-                                Expanded(
-                                  flex: 3,
-                                  child: Container(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        SizedBox(height: Dimensions.size10),
-                                        Container(
-                                            width: Dimensions.size100,
-                                            height: Dimensions.size40,
-                                            child: SizedBox(
-                                              width: Dimensions.size30,
-                                              child: FittedBox(
-                                                fit: BoxFit.fill,
-                                                child: RollingSwitch
-                                                    .icon(
-                                                  onChanged:
-                                                      (bool state) {
-                                                    print(
-                                                        'turned ${(state) ? 'on' : 'off'}');
-                                                  },
-                                                  rollingInfoRight:
-                                                  const RollingIconInfo(
-                                                    icon:
-                                                    Icons.check,
-                                                    text: Text(
-                                                      'On',
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                          20),
-                                                    ),
+                              Expanded(
+                                flex: 3,
+                                child: Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: Dimensions.size10),
+                                      Container(
+                                          width: Dimensions.size100,
+                                          height: Dimensions.size40,
+                                          child: SizedBox(
+                                            width: Dimensions.size30,
+                                            child: FittedBox(
+                                              fit: BoxFit.fill,
+                                              child: RollingSwitch
+                                                  .icon(
+                                                onChanged:
+                                                    (bool state) {
+                                                  print(
+                                                      'turned ${(state) ? 'on' : 'off'}');
+                                                },
+                                                rollingInfoRight:
+                                                const RollingIconInfo(
+                                                  icon:
+                                                  Icons.check,
+                                                  text: Text(
+                                                    'On',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                        20),
                                                   ),
-                                                  rollingInfoLeft:
-                                                  const RollingIconInfo(
-                                                    icon:
-                                                    Icons.check,
-                                                    backgroundColor:
-                                                    Colors.grey,
-                                                    text: Text(
-                                                      'Off',
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
+                                                ),
+                                                rollingInfoLeft:
+                                                const RollingIconInfo(
+                                                  icon:
+                                                  Icons.check,
+                                                  backgroundColor:
+                                                  Colors.grey,
+                                                  text: Text(
+                                                    'Off',
+                                                    style: TextStyle(
+                                                        fontSize: 20),
                                                   ),
                                                 ),
                                               ),
-                                            )),
-                                        SizedBox(height: Dimensions.size10),
-                                        CircleAvatar(
-                                          radius: Dimensions.size25,
-                                          backgroundImage: const AssetImage(
-                                              "assets/images/ic_delete.png"),
-                                        ),
-                                        SizedBox(height: Dimensions.size10),
-                                      ],
-                                    ),
-
+                                            ),
+                                          )),
+                                      SizedBox(height: Dimensions.size10),
+                                      CircleAvatar(
+                                        radius: Dimensions.size25,
+                                        backgroundImage: const AssetImage(
+                                            "assets/images/ic_delete.png"),
+                                      ),
+                                      SizedBox(height: Dimensions.size10),
+                                    ],
                                   ),
+
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
+                          ),
 
-                          )
-                      ),
+                        )
+                    ),
 
-                    ],
-                  ),
+                  ],
                 ),
               ),
-            ]),
+            );
+          },
+        );
+
+    }),
       ),
       floatingActionButton: FloatingActionButton(onPressed: () {
 
-        //Get.to(RouteHelper.getCreateBusinessPage());
+        Get.offNamed(RouteHelper.getAddOffersPage());
 
       },
         child: Icon(Icons.add,size: Dimensions.size40,),

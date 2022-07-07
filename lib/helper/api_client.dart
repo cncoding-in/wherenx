@@ -49,6 +49,18 @@ class ApiClient extends GetConnect implements GetxService{
     }
   }
 
+  Future<Response> deleteData(String uri) async {
+    print(uri);
+    try{
+      Response response = await delete(uri);
+      print(response);
+      return response;
+    } catch(e){
+      return Response(statusCode: 1, statusText: e.toString());
+    }
+
+  }
+
 
 
 // Send data with file and data using form
