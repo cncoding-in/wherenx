@@ -106,7 +106,6 @@ class CreateBusinessController extends GetxController{
             fontSize: 16.0
         );
         Get.offNamed(RouteHelper.getDashboardPage());
-
       }
       else{
         loading.hideLoading();

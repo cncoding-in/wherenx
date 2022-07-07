@@ -15,6 +15,8 @@ class Constants {
   static const String CREATEBUSINESS = "businesspartner/creat-business";
   static const String BUSINESSDETAILS = "businesspartner/business-details?";
   static const String GETBUSINESSLIST = "businesspartner/get-business-list?owner_id=";
+  static const String BUSINESSDELETE = "businesspartner/delete-business?";
+  static const String BUSINESSSTATUS = "businesspartner/update-business-status?";
 
   static const String GETBUSINESSDETAILS = "businesspartner/business-details?";
   static const String BUSINESSDETAILSSAVE = "businesspartner/business-details";

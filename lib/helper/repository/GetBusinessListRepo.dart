@@ -12,13 +12,20 @@ class GetBusinessListRepo extends GetxController implements GetxService{
 
   GetBusinessListRepo({required this.apiClient});
   Future<Response> getBusinessListFromRepo() async{
-String ownerId = box.read(Constants.OWNERID).toString();
+    String ownerId = box.read(Constants.OWNERID).toString();
     return await apiClient.getData(Constants.GETBUSINESSLIST+ownerId);
   }
 
-  // Future<Response> getDeleteBusinessFromRepo() async{
-  //   String ownerId = box.read(Constants.OWNERID).toString();
-  //   return await apiClient.getData(Constants.GETBUSINESSLIST+ownerId);
-  // }
+  Future<Response> getDeleteBusinessFromRepo(String businessId) async{
+    String ownerId = box.read(Constants.OWNERID).toString();
+    return await apiClient.deleteData(Constants.BUSINESSDELETE+"owner_id="+ownerId+"&business_id="+businessId);
+  }
+
+
+  Future<Response> getStatusChangeBusinessFromRepo(String businessId, String status) async{
+    String ownerId = box.read(Constants.OWNERID).toString();
+    return await apiClient.postData(Constants.BUSINESSSTATUS+"owner_id="+ownerId+"&business_id="+businessId+"&status="+status,"");
+  }
+
 
 }

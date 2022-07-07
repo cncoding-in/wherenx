@@ -139,7 +139,16 @@ class _DashboardState extends State<Dashboard> {
                                                                         (bool state) {
                                                                       print(
                                                                           'turned ${(state) ? 'on' : 'off'}');
+
+                                                                      chanegStatus(index,state);
+
                                                                     },
+                                                                    initialState:
+
+                                                                    businessList.getBusinessListModel.dataBusiness![index].status.toString()=="Active"
+                                                                    ?true :false
+
+                                                                    ,
                                                                     rollingInfoRight:
                                                                     const RollingIconInfo(
                                                                       icon:
@@ -278,13 +287,19 @@ class _DashboardState extends State<Dashboard> {
   }
 
   void deleteBusiness(int index) {
-    // Get.find<GetBusinessListController>().getDeleteBusinessResult(index) ;
+
+     Get.find<GetBusinessListController>().getDeleteBusinessResult(index) ;
   }
 
   void editBusiness(int index) {
-
-
     Get.find<GetBusinessListController>().getEditBusinessResult(index);
+  }
+
+  void chanegStatus(int index,bool state) {
+
+    state==true?    Get.find<GetBusinessListController>().getStatusChangeBusinessResult(index,"Active")
+    :     Get.find<GetBusinessListController>().getStatusChangeBusinessResult(index,"InActive");
+
   }
 
 }

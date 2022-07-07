@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:businesspartner/helper/constants.dart';
 import 'package:businesspartner/helper/repository/GetBusinessListRepo.dart';
 import 'package:businesspartner/models/BusinessModel/GetBusinessListModel.dart';
+import 'package:businesspartner/pages/Helper/Loading.dart';
 import 'package:businesspartner/routes/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
+import '../../pages/Helper/Loading.dart';
 
 class GetBusinessListController extends GetxController{
   final GetBusinessListRepo getBusinessListRepo;
@@ -18,6 +23,7 @@ class GetBusinessListController extends GetxController{
 
   int length  =0;
 
+  Loading loading = Loading();
 
   Future<void> getBusinessListGetResult()async {
     Response response = await getBusinessListRepo.getBusinessListFromRepo() ;
@@ -27,20 +33,9 @@ class GetBusinessListController extends GetxController{
      length =  (getBusinessListModel.dataBusiness?.length==null? 0
           : getBusinessListModel.dataBusiness?.length)!;
       update();
-      print(getBusinessListModel.status);
-      print(getBusinessListModel.dataBusiness);
-      print(getBusinessListModel.message);
-      print(getBusinessListModel.dataBusiness?.length);
+
       if(getBusinessListModel.status=="success"){
-        Fluttertoast.showToast(
-            msg: "Business list refrshed !",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.green,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
+
       }else{
         Fluttertoast.showToast(
             msg: "No record found !",
@@ -67,5 +62,112 @@ class GetBusinessListController extends GetxController{
     Get.toNamed(RouteHelper.getAllMenu());
   }
 
+  Future<void> getDeleteBusinessResult(int index)async {
+
+    loading.showLoading(title: "Deleting your business...");
+    Response response = await getBusinessListRepo.getDeleteBusinessFromRepo(getBusinessListModel.dataBusiness![index].businessId.toString()) ;
+    if(response.statusCode==200){
+
+      if(parseJson(response.body).toString()=="success"){
+        getBusinessListGetResult() ;
+        Fluttertoast.showToast(
+            msg: "Business deleted successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        loading.hideLoading();
+        Get.back();
+
+      }else{
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: parseJson(response.body).toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.offNamed(RouteHelper.getDashboardPage());
+      }
+
+    } else{
+     // loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops filed, try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.back();
+
+    }
+
+
+  }
+
+
+  Future<void> getStatusChangeBusinessResult(int index, String status)async {
+
+    loading.showLoading(title: "Changing your status...");
+    Response response = await getBusinessListRepo.getStatusChangeBusinessFromRepo(getBusinessListModel.dataBusiness![index].businessId.toString(),status ) ;
+
+    if(response.statusCode==200){
+
+      if(parseJson(response.body).toString()=="success"){
+        getBusinessListGetResult() ;
+        Fluttertoast.showToast(
+            msg: "Status changed successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        loading.hideLoading();
+        Get.back();
+
+      }else{
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: parseJson(response.body).toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.offNamed(RouteHelper.getDashboardPage());
+      }
+
+    } else{
+      // loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops filed, try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.back();
+
+    }
+
+
+  }
+
+  parseJson(Map<String, dynamic> json) {
+    return json['status'];
+  }
 
 }
