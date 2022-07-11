@@ -37,8 +37,8 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
   void initState() {
     setState(() {
 
-      startDateAndTime = DateFormat('yyyy-MM-dd – kk:mm').format(startDate);
-      endDateAndTime =  DateFormat('yyyy-MM-dd – kk:mm').format(endDate);
+      startDateAndTime = DateFormat('dd-MM-yyyy').format(startDate);
+      endDateAndTime =  DateFormat('dd-MM-yyyy').format(endDate);
     });
   }
 
@@ -211,7 +211,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                             print('confirm $date');
                             setState(() {
 
-                             startDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                             startDateAndTime=DateFormat('dd-MM-yyyy').format(date);
                             });
                           }, );
                       },
@@ -254,7 +254,7 @@ class _AddCouponspagrState extends State<AddCouponsPage> {
                           }, onConfirm: (date) {
                             print('confirm $date');
                             setState(() {
-                              endDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                              endDateAndTime=DateFormat('dd-MM-yyyy').format(date);
                             });
                           }, );
                       },

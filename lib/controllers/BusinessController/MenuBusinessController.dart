@@ -16,13 +16,11 @@ import 'package:businesspartner/pages/Helper/Loading.dart';
 import 'package:businesspartner/pages/MenuItems/BusinessDetails.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/response/response.dart';
 
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../helper/constants.dart';
@@ -62,16 +60,19 @@ class MenuBusinessController extends GetxController{
 
   int offerLength  =0;
 
-  late var createBusinessModel = new CreateBusinessModel();
-  late var menuLocationModel = new MenuLocationModel();
-  late var menuCouponModel = new MenuCouponModel();
-  late var menuAddressModel = new MenuAddressModel();
-  late var menuMediaGetModel = new MenuMediaGetModel();
-  late var menuUploadMediaModel = new MenuUploadMediaModel();
+  late var createBusinessModel =  CreateBusinessModel();
+  late var menuLocationModel =  MenuLocationModel();
+  late var menuCouponModel =  MenuCouponModel();
+  late var menuAddressModel =  MenuAddressModel();
+  late var menuMediaGetModel =  MenuMediaGetModel();
+  late var menuUploadMediaModel =  MenuUploadMediaModel();
 
-  late var menuOfferModel = new MenuOfferModel();
+  late var menuOfferModel =  MenuOfferModel();
 
-  Loading loading = new Loading();
+  Loading loading =  Loading();
+  parseJson(Map<String, dynamic> json) {
+    return json['status'];
+  }
 
   void getImage(ImageSource imageSource) async {
     final pickedFile = await ImagePicker().pickImage(source: imageSource,imageQuality: 50);
@@ -93,18 +94,7 @@ class MenuBusinessController extends GetxController{
           ((File(compressImagePath.value)).lengthSync() / 1024 / 1024)
               .toStringAsFixed(2) +
               " Mb";
-      print(compressImageSize.value);
-
-
-      print(selectedImageSize.value);
-      print(cropImageSize.value);
-      print(compressImagePath.value);
-
       isPhotoSelected.value="true";
-
-      // ApiClient(appBaseUrl: '').postData1(compressImagePath.value);
-      //postDataWithFile1(selectedImagePath.value);
-
     } else {
 
       Fluttertoast.showToast(
@@ -123,7 +113,6 @@ class MenuBusinessController extends GetxController{
     loading.showLoading(title: "Please wait...");
     Response response = await menuBusinessrepo.getMenuDetailsResultFromRepo() ;
 
-
     if(response.statusCode==200){
       MenuDetailsModel menuDetailsModel  = MenuDetailsModel.fromJson(response.body);
       print(response.body.toString());
@@ -132,13 +121,8 @@ class MenuBusinessController extends GetxController{
       brief =  menuDetailsModel.dataBusiness?.description ;
       photoPath =  menuDetailsModel.dataBusiness?.logo ;
 
-      print(menuDetailsModel.status);
-
       if(menuDetailsModel.status=="success"){
-
         loading.hideLoading();
-        print(propertyType.toString()+propertyName.toString()+brief.toString());
-        //Get.toNamed(RouteHelper.getMenuDetailsPage());
         Get.to(BusinessDetails());
       }else{
         loading.hideLoading();
@@ -239,7 +223,7 @@ class MenuBusinessController extends GetxController{
         }
       print(latValue.toString()+lngValue.toString());
         loading.hideLoading();
-        Get.toNamed(RouteHelper.getLocationPage());
+        Get.toNamed(RouteHelper.getNewLocationPage());
 
       } else{
         loading.hideLoading();
@@ -269,6 +253,15 @@ class MenuBusinessController extends GetxController{
 
       if(menuLocationModel.status=="success"){
         loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Location updated successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
         Get.back();
       }
 
@@ -292,7 +285,7 @@ class MenuBusinessController extends GetxController{
 
   // for coupon
 
-  Future<void> getMenuCouponDetails()async {
+  Future<void> getMenuCouponDetails(bool frommenu)async {
     loading..showLoading(title: "Please wait...");
     print(Constants.OWNERID_DATA);
     Response response = await menuBusinessrepo.getMenuCouponResultFromRepo() ;
@@ -312,7 +305,7 @@ class MenuBusinessController extends GetxController{
       }
 
       loading.hideLoading();
-      Get.toNamed(RouteHelper.getCouponsPage());
+      frommenu==true?Get.toNamed(RouteHelper.getCouponsPage()):"";
 
     } else{
       print(response.body);
@@ -344,10 +337,13 @@ class MenuBusinessController extends GetxController{
       print(response.body.toString());
       if(menuLocationModel.status=="success"){
 
+
       }
+      getMenuCouponDetails(false);
 
       loading.hideLoading();
-      Get.toNamed(RouteHelper.getAllMenu());
+      Get.back();
+     // Get.toNamed(RouteHelper.getAllMenu());
 
     } else{
       print(response.body);
@@ -361,6 +357,107 @@ class MenuBusinessController extends GetxController{
           textColor: Colors.white,
           fontSize: 16.0
       );
+    }
+
+
+  }
+
+  Future<void> getMenuCouponDeleteDetails()async {
+    loading..showLoading(title: "Deleting coupon...");
+
+    Response response = await menuBusinessrepo.getMenuCouponDeleteResultFromRepo() ;
+
+    print(response.body);
+    if(response.statusCode==200){
+      if(parseJson(response.body)=="success"){
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Deleted successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      } else {
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Failed !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      }
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
+
+
+  }
+
+  Future<void> getStatusChangeCouponResult(int index, String status)async {
+
+    loading.showLoading(title: "Changing your status...");
+    Response response = await menuBusinessrepo.getStatusChangeCouponFromRepo(menuCouponModel.offerData![index].couponId.toString(),status ) ;
+
+    if(response.statusCode==200){
+
+      if(parseJson(response.body).toString()=="success"){
+        getMenuCouponDetails(false) ;
+        Fluttertoast.showToast(
+            msg: "Status changed successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        loading.hideLoading();
+       // Get.back();
+
+      }else{
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: parseJson(response.body).toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+       // Get.back();
+      }
+
+    } else{
+      // loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops filed, try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
+     // Get.back();
+
     }
 
 
@@ -496,7 +593,7 @@ class MenuBusinessController extends GetxController{
 
     print(response.body);
     if(response.statusCode==200){
-      if(menuMediaGetModel.status=="success"){
+      if(parseJson(response.body)=="success"){
         loading.hideLoading();
         Fluttertoast.showToast(
             msg: "Deleted successfully !",
@@ -511,7 +608,7 @@ class MenuBusinessController extends GetxController{
       } else {
         loading.hideLoading();
         Fluttertoast.showToast(
-            msg: "Oohps, failed.. Try again !",
+            msg: "Failed !",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -521,9 +618,6 @@ class MenuBusinessController extends GetxController{
         );
         Get.back();
       }
-
-
-
     } else{
       print(response.body);
       loading.hideLoading();
@@ -643,11 +737,67 @@ class MenuBusinessController extends GetxController{
       print(response.body.toString());
       if(menuLocationModel.status=="success"){
 
+        getMenuOfferDetails(false);
+        loading.hideLoading();
+        Get.back();
+      } else{
+        loading.hideLoading();
+        Get.back();
       }
 
-      loading.hideLoading();
-      Get.toNamed(RouteHelper.getAllMenu());
 
+      //Get.toNamed(RouteHelper.getAllMenu());
+
+    } else{
+      print(response.body);
+      loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oohps, failed.. Try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+      Get.back();
+    }
+
+
+  }
+
+  Future<void> getMenuOfferDeleteDetails()async {
+    loading..showLoading(title: "Deleting offer...");
+
+    Response response = await menuBusinessrepo.getMenuOfferDeleteResultFromRepo() ;
+
+    print(response.body);
+    if(response.statusCode==200){
+      if(parseJson(response.body)=="success"){
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Deleted successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      } else {
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: "Failed !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Get.back();
+      }
     } else{
       print(response.body);
       loading.hideLoading();
@@ -664,4 +814,58 @@ class MenuBusinessController extends GetxController{
 
 
   }
+
+  Future<void> getStatusChangeOfferResult(int index, String status)async {
+
+    loading.showLoading(title: "Changing your status...");
+    Response response = await menuBusinessrepo.getStatusChangeOfferFromRepo(menuOfferModel.offerData![index].offersId.toString(),status ) ;
+
+    if(response.statusCode==200){
+
+      if(parseJson(response.body).toString()=="success"){
+       // getMenuOfferDetails(false) ;
+        Fluttertoast.showToast(
+            msg: "Status changed successfully !",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        loading.hideLoading();
+       // Get.back();
+
+      }else{
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: parseJson(response.body).toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+       // Get.offNamed(RouteHelper.getDashboardPage());
+      }
+
+    } else{
+      // loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops filed, try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      Get.back();
+
+    }
+
+
+  }
+
+
 }

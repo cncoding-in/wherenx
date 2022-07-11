@@ -28,4 +28,10 @@ class GetBusinessListRepo extends GetxController implements GetxService{
   }
 
 
+
+  Future<Response> getStatusOfBusinessFromRepo(String businessId) async{
+    String ownerId = box.read(Constants.OWNERID).toString();
+    return await apiClient.getData(Constants.GETBUSINESSSTATUS+"owner_id="+ownerId+"&business_id="+businessId);
+  }
+
 }

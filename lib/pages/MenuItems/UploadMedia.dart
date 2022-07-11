@@ -26,7 +26,8 @@ class _UploadmediaState extends State<Uploadmedia> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
-          height: Dimensions.size50),
+          height: Dimensions.size200,
+          width: Dimensions.size150,),
 
       ),
       body: Container(
@@ -164,7 +165,7 @@ class _UploadmediaState extends State<Uploadmedia> {
 
                         // loginNow();
                       },
-                      child: Text('UPLOD IMAGE'),
+                      child: Text('UPLOAD IMAGE'),
                       style: ElevatedButton.styleFrom(
                           primary: Colors.lightBlueAccent,
 

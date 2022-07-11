@@ -71,6 +71,14 @@ class MenuBusinessrepo extends GetxController implements GetxService{
 
   }
 
+  Future<Response> getMenuCouponDeleteResultFromRepo() async{
+    return await apiClient.deleteData(Constants.MENUDELETECOUPON+"coupon_id="+Constants.MCOUPONID+"&owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
+
+  Future<Response> getStatusChangeCouponFromRepo(String businessId, String status) async{
+
+    return await apiClient.postData(Constants.MENUCHANGECOUPON,toJsonForCouponStatusChange(Constants.OWNERID_DATA,Constants.MENU_BUSINESS_ID,status,businessId));
+  }
 
   // ADDRESS
 
@@ -92,7 +100,7 @@ class MenuBusinessrepo extends GetxController implements GetxService{
   }
 
   Future<Response> getMenuMediaDeleteResultFromRepo() async{
-    return await apiClient.deleteData(Constants.MENUDELETEMEDIA+Constants.MEDIAID);
+    return await apiClient.deleteData(Constants.MENUDELETEMEDIA+"media_id="+Constants.MEDIAID+"&owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
   }
 
 
@@ -124,6 +132,16 @@ class MenuBusinessrepo extends GetxController implements GetxService{
     return await apiClient.postData(Constants.MENUADDOFFER, toJsonForAddOfferPost(dropdownValue,discountamount,startDateAndTime,endDateAndTime));
 
   }
+
+  Future<Response> getMenuOfferDeleteResultFromRepo() async{
+    return await apiClient.deleteData(Constants.MENUDELETEOFFER+"offer_id="+Constants.MOFFERID+"&owner_id="+Constants.OWNERID_DATA+"&business_id="+Constants.MENU_BUSINESS_ID);
+  }
+
+  Future<Response> getStatusChangeOfferFromRepo(String businessId, String status) async{
+
+    return await apiClient.postData(Constants.MENUCHANGEOFFER,toJsonForOfferStatusChange(Constants.OWNERID_DATA,Constants.MENU_BUSINESS_ID,status,businessId));
+  }
+
 
   Map<String, dynamic> toJson(email, password){
     final Map<String,String> data = new Map<String,String>();
@@ -175,6 +193,27 @@ class MenuBusinessrepo extends GetxController implements GetxService{
     data["country"] = country;
     data["address"] = address;
     data["pincode"] = pincode;
+    return data;
+
+
+  }
+
+
+  Map<String, dynamic> toJsonForOfferStatusChange(String ownerId, String businessId, String status, String offer_id) {
+    final Map<String, String> data = new Map<String, String>();
+    data["owner_id"] = ownerId;
+    data["business_id"] = businessId;
+    data["offer_id"] = offer_id;
+    data["status"] = status;
+    return data;
+  }
+
+  Map<String, dynamic> toJsonForCouponStatusChange(String ownerId, String businessId, String status, String coupon_id) {
+    final Map<String, String> data = new Map<String, String>();
+    data["owner_id"] = ownerId;
+    data["business_id"] = businessId;
+    data["coupon_id"] = coupon_id;
+    data["status"] = status;
     return data;
   }
 }

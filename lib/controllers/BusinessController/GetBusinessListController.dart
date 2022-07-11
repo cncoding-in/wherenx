@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:businesspartner/helper/constants.dart';
 import 'package:businesspartner/helper/repository/GetBusinessListRepo.dart';
+import 'package:businesspartner/models/BusinessModel/BusinessStatusmodel.dart';
 import 'package:businesspartner/models/BusinessModel/GetBusinessListModel.dart';
 import 'package:businesspartner/pages/Helper/Loading.dart';
 import 'package:businesspartner/routes/route_helper.dart';
@@ -24,6 +25,8 @@ class GetBusinessListController extends GetxController{
   int length  =0;
 
   Loading loading = Loading();
+
+  late var businessStatusModel =  BusinessStatusmodel();
 
   Future<void> getBusinessListGetResult()async {
     Response response = await getBusinessListRepo.getBusinessListFromRepo() ;
@@ -55,11 +58,59 @@ class GetBusinessListController extends GetxController{
 
   }
 
-  void getEditBusinessResult(int index) {
-    Constants.MENU_BUSINESS_INDEX = index.toString();
-    Constants.MENU_BUSINESS_ID = getBusinessListModel.dataBusiness![index].businessId.toString();
-    Constants.PROPERTY_NAME = getBusinessListModel.dataBusiness![index].businessName.toString();
-    Get.toNamed(RouteHelper.getAllMenu());
+  Future<void> getEditBusinessResult(int index) async {
+
+    loading.showLoading(title: "Editing your business...");
+    Response response = await getBusinessListRepo.getStatusOfBusinessFromRepo(getBusinessListModel.dataBusiness![index].businessId.toString()) ;
+    if(response.statusCode==200){
+
+      businessStatusModel  = BusinessStatusmodel.fromJson(response.body);
+
+      if(businessStatusModel.status=="success"){
+        loading.hideLoading();
+        Constants.MENU_BUSINESS_INDEX = index.toString();
+        Constants.MENU_BUSINESS_ID = getBusinessListModel.dataBusiness![index].businessId.toString();
+        Constants.PROPERTY_NAME = getBusinessListModel.dataBusiness![index].businessName.toString();
+
+        Constants.BSDETAILS = businessStatusModel.businessData!.details.toString();
+        Constants.BSLOCATION = businessStatusModel.businessData!.location.toString();
+        Constants.BSADDRESS = businessStatusModel.businessData!.address.toString();
+        Constants.BSCOUPON = businessStatusModel.businessData!.coupon.toString();
+        Constants.BSMEDIA = businessStatusModel.businessData!.media.toString();
+        Constants.BSOFFERS = businessStatusModel.businessData!.offer.toString();
+        Constants.BSHOURS = businessStatusModel.businessData!.hours.toString();
+        Get.toNamed(RouteHelper.getAllMenu());
+
+      }else{
+        loading.hideLoading();
+        Fluttertoast.showToast(
+            msg: businessStatusModel.message.toString(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.orange,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+
+      }
+
+    } else{
+      // loading.hideLoading();
+      Fluttertoast.showToast(
+          msg: "Oops filed, try again !",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.orange,
+          textColor: Colors.white,
+          fontSize: 16.0);
+     Get.back();
+
+    }
+
+
+
   }
 
   Future<void> getDeleteBusinessResult(int index)async {

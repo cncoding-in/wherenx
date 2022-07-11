@@ -44,7 +44,7 @@ class OfferData {
         this.endDate});
 
   OfferData.fromJson(Map<String, dynamic> json) {
-    offersId = json['offers_id'];
+    offersId = json['offer_id'];
     offerType = json['offer_type'];
     rate = json['rate'];
     status = json['status'];

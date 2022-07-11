@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:businesspartner/controllers/BusinessController/CreateBusinessController.dart';
+import 'package:businesspartner/helper/Dimension.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -45,8 +46,8 @@ class _CreateBusinessState extends State<CreateBusiness> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
-          height: 200.0,
-          width: 150.0,
+          height: Dimensions.size200,
+          width: Dimensions.size150,
         ),
       ),
 

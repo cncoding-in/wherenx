@@ -269,12 +269,15 @@ class _DashboardState extends State<Dashboard> {
       );
       }),
 
-      floatingActionButton: FloatingActionButton(onPressed: () {
-         Get.to(CreateBusiness());
-         //Get.to(RouteHelper.getCreateBusinessPage());
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: Dimensions.size90),
+        child: FloatingActionButton(onPressed: () {
+           Get.to(CreateBusiness());
+           //Get.to(RouteHelper.getCreateBusinessPage());
 
-      },
-        child: Icon(Icons.add,size: Dimensions.size40,),
+        },
+          child: Icon(Icons.add,size: Dimensions.size40,),
+        ),
       ),
 
     );

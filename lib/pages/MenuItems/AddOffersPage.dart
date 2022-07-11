@@ -38,8 +38,9 @@ class _AddOffersPageState extends State<AddOffersPage> {
   void initState() {
     setState(() {
 
-      startDateAndTime = DateFormat('yyyy-MM-dd – kk:mm').format(startDate);
-      endDateAndTime =  DateFormat('yyyy-MM-dd – kk:mm').format(endDate);
+      //yyyy-MM-dd – kk:mm;
+      startDateAndTime = DateFormat('dd-MM-yyyy').format(startDate);
+      endDateAndTime =  DateFormat('dd-MM-yyyy').format(endDate);
     });
   }
 
@@ -198,7 +199,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                             print('confirm $date');
                             setState(() {
 
-                              startDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                              startDateAndTime=DateFormat('dd-MM-yyyy').format(date);
                             });
                           }, );
                        },
@@ -241,7 +242,7 @@ class _AddOffersPageState extends State<AddOffersPage> {
                           }, onConfirm: (date) {
                             print('confirm $date');
                             setState(() {
-                              endDateAndTime=DateFormat('yyyy-MM-dd – kk:mm').format(date);
+                              endDateAndTime=DateFormat('dd-MM-yyyy').format(date);
                             });
                           }, );
                       },

@@ -92,7 +92,9 @@ class CouponsPage extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        coupon.menuCouponModel.offerData![index].rate.toString(),
+                                        coupon.menuCouponModel.offerData![index].offerType.toString()=="Flat"?
+                                        coupon.menuCouponModel.offerData![index].rate.toString():
+                                        coupon.menuCouponModel.offerData![index].rate.toString()+"%",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -227,9 +229,14 @@ class CouponsPage extends StatelessWidget {
                                                           (bool state) {
                                                         print(
                                                             'turned ${(state) ? 'on' : 'off'}');
-                                                        state==true?changeStatus("inactive"):changeStatus("active");
+                                                        chanegStatus(index,state);
 
                                                       },
+                                                      initialState:
+
+                                                      coupon.menuCouponModel.offerData![index].status.toString()=="Active"
+                                                          ?true :false
+                                                      ,
                                                       rollingInfoRight:
                                                       const RollingIconInfo(
                                                         icon:
@@ -257,10 +264,18 @@ class CouponsPage extends StatelessWidget {
                                                   ),
                                                 )),
                                             SizedBox(height: 10),
-                                            CircleAvatar(
-                                              radius: 25,
-                                              backgroundImage: const AssetImage(
-                                                  "assets/images/ic_delete.png"),
+                                            GestureDetector(
+                                              onTap: (){
+                                                Constants.MCOUPONID = coupon.menuCouponModel.offerData![index].couponId.toString();
+
+                                                Get.find<MenuBusinessController>()
+                                                    .getMenuCouponDeleteDetails();
+                                              },
+                                              child: const CircleAvatar(
+                                                radius: 25,
+                                                backgroundImage: AssetImage(
+                                                    "assets/images/ic_delete.png"),
+                                              ),
                                             ),
                                             SizedBox(height: Dimensions.size10),
                                           ],
@@ -284,18 +299,21 @@ class CouponsPage extends StatelessWidget {
       );
 
       }),
-      floatingActionButton: FloatingActionButton(onPressed: () {
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: Dimensions.size90),
+        child: FloatingActionButton(onPressed: () {
 
-        Get.toNamed(RouteHelper.getAddCouponsPage());
-      },
-        child: Icon(Icons.add,size: Dimensions.size40,),
+          Get.toNamed(RouteHelper.getAddCouponsPage());
+        },
+          child: Icon(Icons.add,size: Dimensions.size40,),
+        ),
       ),
     );
   }
 
-  changeStatus(String s) {
-
-  //  Get.find<MenuBusinessController>().
+  void chanegStatus(int index, bool state) {
+    state==true?    Get.find<MenuBusinessController>().getStatusChangeCouponResult(index,"Active")
+        :     Get.find<MenuBusinessController>().getStatusChangeCouponResult(index,"InActive");
 
   }
 }

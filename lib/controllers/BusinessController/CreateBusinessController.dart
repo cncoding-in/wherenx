@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:businesspartner/controllers/BusinessController/GetBusinessListController.dart';
 import 'package:businesspartner/helper/repository/CreateBusinessRepo.dart';
 import 'package:businesspartner/models/BusinessModel/CreateBusinessModel.dart';
 import 'package:businesspartner/pages/Helper/Loading.dart';
@@ -90,7 +91,9 @@ class CreateBusinessController extends GetxController{
       final createBusinessModel = CreateBusinessModel.fromJson(response.body);
       // print(getUserLoginModel.status);
       // print(getUserLoginModel.userData?.name);
+
       if(createBusinessModel.status=="success"){
+        Get.find<GetBusinessListController>().getBusinessListGetResult();
         propertyName =  createBusinessModel.dataBusiness?.propertyName;
         propertyType =  createBusinessModel.dataBusiness?.propertyType;
         brief =  createBusinessModel.dataBusiness?.brief ;
@@ -105,7 +108,7 @@ class CreateBusinessController extends GetxController{
             textColor: Colors.white,
             fontSize: 16.0
         );
-        Get.offNamed(RouteHelper.getDashboardPage());
+        Get.back();
       }
       else{
         loading.hideLoading();

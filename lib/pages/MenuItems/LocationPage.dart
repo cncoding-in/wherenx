@@ -56,22 +56,26 @@ class _LocationPageState extends State<LocationPage> {
   }
 
   void setLocatioFromServer() async {
-    var location = await currentLocation.getLocation();
+
+    mapMarker = await BitmapDescriptor.fromAssetImage(const ImageConfiguration(),'assets/images/ic_map_pin_me.png');
+    //var location = await currentLocation.getLocation();
     getLatitude = Get.find<MenuBusinessController>().latValue;
     getLongitude = Get.find<MenuBusinessController>().lngValue;
     _controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(location.latitude ?? 0.0,location.longitude?? 0.0),
+      target: LatLng(getLatitude, getLongitude),
       zoom: 17,
     )));
     setState(() {
       _markers.add(Marker(markerId: const MarkerId('Home'),
           icon: mapMarker,
-          position: LatLng(getLatitude, getLongitude)
+          position:  LatLng(double.parse(getLatitude), double.parse(getLongitude))
       ));
     });
   }
-  void showMarker(double lat,double Long){
-    LatLng LatLong = LatLng(lat, lat);
+   showMarker(double lat,double Long) async {
+    mapMarker = await BitmapDescriptor.fromAssetImage(const ImageConfiguration(),'assets/images/ic_map_pin_me.png');
+    LatLng LatLong = LatLng(lat, Long);
+    print(lat+Long);
     _controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLong,
       zoom: 17,
@@ -86,22 +90,30 @@ class _LocationPageState extends State<LocationPage> {
   @override
   void initState(){
     super.initState();
+    //
+
     setState(() {
-      setCustomMarker();
-      Get.find<MenuBusinessController>().latValue=="null"?
-      getLocation() :
-          setLocatioFromServer();
+     //
+      getLocation();
+     // setCustomMarker();
+      //setLocatioFromServer();
+     // getLocation();
+     // showMarker(double.parse(getLatitude),double.parse(getLongitude));
+      // Get.find<MenuBusinessController>().latValue=="null"?
+      // getLocation() :
+      //     setLocatioFromServer();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    getLocation();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
-            height: Dimensions.size50),
-
+          height: Dimensions.size200,
+          width: Dimensions.size150,),
       ),
       body: Center(
         child: Stack(
@@ -118,7 +130,7 @@ class _LocationPageState extends State<LocationPage> {
                   // mapType: MapType.hybrid,
                   mapType: MapType.normal,
                   initialCameraPosition:const CameraPosition(
-                    target: LatLng(48.8561, 2.2930),
+                    target: LatLng(19.8134554, 85.8312359),
                     zoom: 17,
                   ),
                   onMapCreated: (GoogleMapController controller){
@@ -203,13 +215,11 @@ class _LocationPageState extends State<LocationPage> {
               Positioned(
                 bottom: Dimensions.size50,
                 left: Dimensions.size75,
-
                 child: Center(
                   child: Row(
                     children: [
                       Container(
 
-                        child: Positioned(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
                             child: const Text('SAVE MY LOCATION'),onPressed: (){
@@ -218,21 +228,16 @@ class _LocationPageState extends State<LocationPage> {
 
                           },
                           ),
-                        ),
+
                       ),
                       SizedBox(
                         width:Dimensions.size20,
                       ),
-                      Positioned(
-                          child:ElevatedButton(
+
+                       ElevatedButton(
                             onPressed: () {
                               getLocation();
-                              // Fluttertoast.showToast(
-                              //     msg: "Location is : "+getLongitude.toString()+ "," + getLongitude.toString(),  // message
-                              //     toastLength: Toast.LENGTH_SHORT, // length
-                              //     gravity: ToastGravity.SNACKBAR,    // location
-                              //     timeInSecForIosWeb: 1               // duration
-                              // );
+
                             },
                             child: const Icon(Icons.my_location, color: Colors.white),
                             style: ElevatedButton.styleFrom(
@@ -243,7 +248,7 @@ class _LocationPageState extends State<LocationPage> {
                             ),
                           )
                         //)
-                      ),
+
                     ],
                   ),
                 ),
@@ -287,11 +292,6 @@ class _LocationPageState extends State<LocationPage> {
     Get.find<MenuBusinessController>().getMenuLocationPostDetails(getLatitude,getLongitude);
     if(getLatitude.toString()!=""){
 
-      // Get.find()<ProfileDataController>().loginStatus ?
-      // Get.off(MainSearchPage()) :
-      // Get.off(AuthLoginPage());
-
-      //  Get.toNamed(RouteHelper.authLoginPage);
 
     } else {
       Fluttertoast.showToast(

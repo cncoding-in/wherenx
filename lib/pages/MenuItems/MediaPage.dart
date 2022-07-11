@@ -124,7 +124,7 @@ class MediaPage extends StatelessWidget {
        Get.offNamed(RouteHelper.getUploadMediaPage());
 
       },
-        child: Icon(Icons.arrow_upward,size: Dimensions.size40,),
+        child: Icon(Icons.add,size: Dimensions.size40,),
       ),
 
 

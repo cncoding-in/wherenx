@@ -152,7 +152,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         keyboardType: TextInputType.visiblePassword,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Conform Password',
+                          labelText: 'Confirm Password',
 
                         ),
                         // controller: myController,

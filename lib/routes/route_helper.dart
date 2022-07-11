@@ -9,6 +9,7 @@ import 'package:businesspartner/pages/Business/CreateBusiness.dart';
 import 'package:businesspartner/pages/Business/Dashboard.dart';
 import 'package:businesspartner/pages/MenuItems/LocationPage.dart';
 import 'package:businesspartner/pages/MenuItems/MediaPage.dart';
+import 'package:businesspartner/pages/MenuItems/NewLocation.dart';
 
 
 import 'package:get/get.dart';
@@ -44,6 +45,7 @@ class RouteHelper{
   static const String addCouponsPage= "/add-coupons-page";
   static const String businessHoursPage= "/business-hours-page";
   static const String locationPage= "/location-page";
+  static const String newLocationPage= "/new-location-page";
 
 
 
@@ -63,6 +65,7 @@ class RouteHelper{
   static String getBusinessHoursPage()=> '$businessHoursPage';
   static String getLocationPage()=> '$locationPage';
   static String getMenuDetailsPage()=> '$menuDetailsPage';
+  static String getNewLocationPage()=> '$newLocationPage';
 
 
   static List<GetPage> routes = [
@@ -83,6 +86,15 @@ class RouteHelper{
     // Get Auth Forgot Password Page
     GetPage(name: authForgotPasswordPage, page: (){
       return ForgotPasswordPage();
+    },
+        transition: Transition.zoom
+    ),
+
+
+
+    // Get Auth Forgot Password Page
+    GetPage(name: newLocationPage, page: (){
+      return NewLocation();
     },
         transition: Transition.zoom
     ),

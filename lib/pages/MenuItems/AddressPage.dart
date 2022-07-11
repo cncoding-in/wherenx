@@ -28,11 +28,11 @@ class _AddressPageState extends State<AddressPage> {
 
   @override
   void initState() {
-    addressController.text = Constants.AADDRESS ;
-    cityController.text = Constants.ACITY ;
-    stateController.text = Constants.ASTATE;
-    countryController.text = Constants.ACOUNTRY;
-    zipController.text = Constants.APINCODE ;
+    addressController.text = Constants.AADDRESS=="null"?"":Constants.AADDRESS ;
+    cityController.text = Constants.ACITY =="null"?"":Constants.ACITY ;
+    stateController.text = Constants.ASTATE=="null"?"":Constants.ASTATE ;
+    countryController.text = Constants.ACOUNTRY=="null"?"":Constants.ACOUNTRY ;
+    zipController.text = Constants.APINCODE =="null"?"":Constants.APINCODE ;
 
   }
 
@@ -43,14 +43,10 @@ class _AddressPageState extends State<AddressPage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Image.asset('assets/images/ic_head_logo.png',
-          height: Dimensions.logoHeight,
-          width: Dimensions.logowidth,),
-        actions: <Widget>[
-          IconButton(
-            icon: Image.asset('assets/images/ic_manprofile.png'),
-            onPressed: () => Get.toNamed(RouteHelper.getAuthLoginPage()),
-          ),
-        ],
+            height: Dimensions.size200,
+            width: Dimensions.size150
+          ,),
+
 
       ),
       body: Form(
@@ -81,6 +77,7 @@ class _AddressPageState extends State<AddressPage> {
 
                   //address
                   TextFormField(
+                    textInputAction: TextInputAction.next,
                     controller: addressController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -88,6 +85,7 @@ class _AddressPageState extends State<AddressPage> {
                       }
                       return null;
                     },
+
                     decoration:  InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Address',
@@ -99,6 +97,7 @@ class _AddressPageState extends State<AddressPage> {
                     height:  Dimensions.size20,
                   ),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
                     controller: cityController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -119,6 +118,7 @@ class _AddressPageState extends State<AddressPage> {
                     height:  Dimensions.size20,
                   ),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
                     controller: stateController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -139,6 +139,7 @@ class _AddressPageState extends State<AddressPage> {
                     height:  Dimensions.size20,
                   ),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
                     controller: countryController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -160,7 +161,7 @@ class _AddressPageState extends State<AddressPage> {
                     height:  Dimensions.size20,
                   ),
                   TextFormField(
-
+                    textInputAction: TextInputAction.done,
                     controller: zipController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
