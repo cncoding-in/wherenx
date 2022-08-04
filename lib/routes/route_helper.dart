@@ -1,5 +1,6 @@
 import 'package:businesspartner/pages/Authentication/AuthLoginPage.dart';
 import 'package:businesspartner/pages/Authentication/ForgotPasswordPage.dart';
+import 'package:businesspartner/pages/Business/LatlongListForDemo.dart';
 import 'package:businesspartner/pages/MenuItems/AddCouponsPage.dart';
 import 'package:businesspartner/pages/MenuItems/AddOffersPage.dart';
 
@@ -14,6 +15,7 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 import '../pages/Authentication/AppSplashPage.dart';
+import '../pages/Business/BusinessMapMarker.dart';
 import '../pages/MenuItems/AddressPage.dart';
 import '../pages/MenuItems/BusinessHoursPage.dart';
 import '../pages/MenuItems/CouponsPage.dart';
@@ -39,6 +41,8 @@ class RouteHelper{
   static const String addCouponsPage= "/add-coupons-page";
   static const String businessHoursPage= "/business-hours-page";
   static const String locationPage= "/location-page";
+  static const String businessMapMarkerpage= "/lbusiness-Map-Marker-page";
+  static const String latlongListForDemoPage= "/latlongListForDemo-page";
 
 
   static String getInitial()=> '$initial';
@@ -56,6 +60,8 @@ class RouteHelper{
   static String getAddCouponsPage()=> '$addCouponsPage';
   static String getBusinessHoursPage()=> '$businessHoursPage';
   static String getLocationPage()=> '$locationPage';
+  static String getbusinessMapMarkerpage()=> '$businessMapMarkerpage';
+  static String getlatlongListForDemoPage()=> '$latlongListForDemoPage';
 
 
   static List<GetPage> routes = [
@@ -158,6 +164,17 @@ class RouteHelper{
         transition: Transition.zoom
     ),
 
+    GetPage(name: businessMapMarkerpage, page: (){
+      return BusinessMapMarker();
+    },
+        transition: Transition.zoom
+    ),
+
+    GetPage(name: latlongListForDemoPage, page: (){
+      return LatlongListForDemo();
+    },
+        transition: Transition.zoom
+    ),
 
   ];
 

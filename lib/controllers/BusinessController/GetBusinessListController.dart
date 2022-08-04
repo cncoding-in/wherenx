@@ -26,17 +26,6 @@ class GetBusinessListController extends GetxController{
 
         print("success YYYYYY ");
 
-     //   return response.body["data_business"];
-
-
-       // _searchBusinessList=[];
-
-       // _getBusinessList.addAll( GetBusinessListModel.fromJson(response.body));
-
-        // box.write(Constants.OTP, forgotPasswordGetModel.data?.otp);
-        // box.write(Constants.OTPID, forgotPasswordGetModel.data?.otpId);
-        // print(box.read(Constants.OTPID));
-        // Get.offNamed(RouteHelper.getAuthForgotPasswordGetPage());
       }else{
 
         print("not success XXXXXX");

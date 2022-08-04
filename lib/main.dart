@@ -40,7 +40,9 @@ class MyApp extends StatelessWidget {
      // initialRoute: RouteHelper.uploadMediaPage,
      // initialRoute: RouteHelper.addCouponsPage,
      // initialRoute: RouteHelper.businessHoursPage,
-      initialRoute: RouteHelper.locationPage,
+    //  initialRoute: RouteHelper.locationPage,
+      //initialRoute: RouteHelper.businessMapMarkerpage,
+      initialRoute: RouteHelper.latlongListForDemoPage,
       getPages: RouteHelper.routes,
     );
   }
